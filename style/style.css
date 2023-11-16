@@ -1,0 +1,130 @@
+/* Estilo para el contenedor principal */
+.container {
+    max-width: 90%; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor en la página */
+    padding: 20px; /* Espaciado interno del contenedor */
+    background-color: #f8f8f8; /* Color de fondo del contenedor */
+}
+
+/* Estilo para la sección de encabezado */
+.header {
+    background-color: #333; /* Color de fondo del encabezado */
+    color: #fff; /* Color del texto en el encabezado */
+    padding: 15px 0; /* Espaciado interno del encabezado */
+}
+
+/* Estilo para el contenido */
+.content {
+    padding: 20px; /* Espaciado interno del contenido */
+    background-color: #fff; /* Color de fondo del contenido */
+    border: 1px solid #ddd; /* Borde alrededor del contenido */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 20px; /* Espacio entre el encabezado y el contenido */
+    height: 73vh;
+
+    overflow-y: auto; /* Habilita la barra de desplazamiento vertical si es necesario */
+}
+
+/* Estilo para el pie de página */
+.footer {
+    background-color: #333; /* Color de fondo del pie de página */
+    color: #fff; /* Color del texto en el pie de página */
+    padding: 15px 0; /* Espaciado interno del pie de página */
+    margin-top: 20px; /* Espacio entre el contenido y el pie de página */
+}
+
+/* Estilo para la barra de navegación horizontal */
+nav.horizontal {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #333; /* Color de fondo de la barra de navegación */
+    padding: 15px 0; /* Espaciado interno de la barra de navegación */
+}
+
+/* Estilo para los elementos de la barra de navegación */
+nav.horizontal li {
+    margin: 0;
+}
+
+/* Estilo para los enlaces dentro de los elementos de la barra de navegación */
+nav.horizontal li a:link,
+nav.horizontal li a:visited {
+    text-decoration: none;
+    color: #fff; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno del enlace */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s; /* Efecto de transición en el cambio de color de fondo */
+}
+
+/* Estilo para los enlaces cuando el cursor está sobre ellos */
+nav.horizontal li a:hover {
+    background-color: #555; /* Nuevo color de fondo al pasar el cursor */
+    color: #ffd700; /* Cambio de color del texto al pasar el cursor */
+}
+
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="reset"],
+input[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="reset"]:hover,
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Agrega un estilo adicional para los mensajes de error o éxito si es necesario */
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+}
+
+.success-message {
+    color: #008000;
+    font-size: 14px;
+}
+
+.form2{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
