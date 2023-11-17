@@ -1,4 +1,4 @@
-function loadTable(page) {
+function loadTable_indices(page) {
     var products_table = document.getElementById('products_table');
     var products = document.getElementById("products").valueAsNumber;
 
@@ -79,24 +79,24 @@ function calcularIndices() {
                     tr_utilidades.appendChild(td_utilidades);
 
                     const td_rentabilidadVentas = document.createElement("td");
-                    td_rentabilidadVentas.innerHTML = `<div name="rentabilidadVentas">${objeto['rentabilidadVentas'][i]*100}%<div>`;
+                    td_rentabilidadVentas.innerHTML = `<div name="rentabilidadVentas">${objeto['rentabilidadVentas'][i]}%<div>`;
                     tr_rentabilidadVentas.appendChild(td_rentabilidadVentas);
 
                     const td_indiceComercial = document.createElement("td");
-                    td_indiceComercial.innerHTML = `<div name="indiceComercial">${objeto['indiceComercial'][i]*100}%<div>`;
+                    td_indiceComercial.innerHTML = `<div name="indiceComercial">${objeto['indiceComercial'][i]}%<div>`;
                     tr_indiceComercial.appendChild(td_indiceComercial);
 
                     const td_constribicionUtilidad = document.createElement("td");
-                    td_constribicionUtilidad.innerHTML = `<div name="contribucionUtilidad">${objeto['contribucionUtilidad'][i]*100}%<div>`;
+                    td_constribicionUtilidad.innerHTML = `<div name="contribucionUtilidad">${objeto['contribucionUtilidad'][i]}%<div>`;
                     tr_contribucionUtilidad.appendChild(td_constribicionUtilidad);
 
                 }
 
                 tr_costosVariables.innerHTML+=`<td><div id="totalCostosVariables" name="total">Total xd</div></td>`;
                 tr_utilidades.innerHTML+=`<td><div id="totalUtilidades" name="total">Total xd</div></td>`;
-                tr_rentabilidadVentas.innerHTML+=`<td><div id="totalRentavilidad" name="total">Total xd</div></td>`;
-                tr_indiceComercial.innerHTML+=`<td><div id="totalIndice" name="total">Total xd</div></td>`;
-                tr_contribucionUtilidad.innerHTML+=`<td><div id="totalContribucion" name="total">Total xd</div></td>`;
+                tr_rentabilidadVentas.innerHTML+=`<td><div id="totalRentavilidad" name="total">Total xd</div>%</td>`;
+                tr_indiceComercial.innerHTML+=`<td><div id="totalIndice" name="total">Total xd</div>%</td>`;
+                tr_contribucionUtilidad.innerHTML+=`<td><div id="totalContribucion" name="total">Total xd</div>%</td>`;
 
                 tabla_indices_preferencia.appendChild(tr_costosVariables);
                 tabla_indices_preferencia.appendChild(tr_utilidades);

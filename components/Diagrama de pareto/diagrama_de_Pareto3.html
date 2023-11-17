@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="context">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam, blanditiis 
+        quos aperiam amet tenetur laborum sapiente commodi corporis reprehenderit adipisci provident 
+        tempore, eaque officiis rem quod autem nihil nemo dolores.
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora perspiciatis voluptas dignissimos.
+         Quae, labore. Animi necessitatibus ab facere voluptatem ducimus vero eaque, placeat dolores, tempore a, magnam reiciendis molestias nam.
+        Necessitatibus esse nam minus consequatur sapiente quod. Placeat optio ducimus rem! Nihil, vel iste, hic repudiandae molestias error nemo 
+        ad rerum quia iusto beatae soluta similique repellendus ducimus nam temporibus.
+
+    </div>
+    <br>
+    <div>
+        <div>¿Con cuantos productos cuenta?</div>
+        <form action="javascript:loadTable_pareto('Diagrama de pareto/tabla.php')" method="get" id="form_products">
+            <div>
+                <label for="products">Introduzca los productos con los que cuenta</label>
+                <input type="number" name="products" id="products">
+            </div>
+            <input type="reset" value="Limpiar">
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+    <br>
+    <div class="products_table" id="products_table">
+
+    </div>
+    <div class="products_table" id="ingresos_table">
+
+    </div>
+    
+    <div class="chartCard">
+        <div class="chartBox">
+          <canvas id="myChart">
+              
+          </canvas>
+        </div>
+    </div>
+
+    <script src="/script/script2.js"></script>
+</body>
+</html>

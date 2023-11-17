@@ -24,9 +24,9 @@ for($i=0; $i< count($nombresProducto); $i++){
 
     $costosVariables[$i]= $costosProduccion[$i] - $costosFijos[$i];
     $utilidades[$i]= $ingresos[$i] - $costosProduccion[$i] -$costosFijos[$i]- $costosAdministrativos[$i];
-    $rentabilidadVentas[$i] = $utilidades[$i]/$ingresos[$i];
-    $indiceComercial[$i] =$ingresos[$i]/array_sum($ingresos);
-    $contribucionUtilidad[$i]=($ingresos[$i] - $costosVariables[$i])/ $ingresos[$i];
+    $rentabilidadVentas[$i] = $utilidades[$i]/$ingresos[$i]*100;
+    $indiceComercial[$i] =$ingresos[$i]/array_sum($ingresos)*100;
+    $contribucionUtilidad[$i]=($ingresos[$i] - $costosVariables[$i])/ $ingresos[$i]*100;
     
 }
 $indices['costosVariables']= $costosVariables;
