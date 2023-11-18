@@ -1,6 +1,6 @@
-let myChart = null;
+let myChart_pronosticos = null;
 
-function loadTablep(page) {
+function loadTable_pronosticos(page) {
     var pronosticos_table = document.getElementById('form_pronosticos_table');
     var pronosticos = document.getElementById("pronosticos").valueAsNumber;
 
@@ -28,11 +28,11 @@ function calcularPronosticos() {
             console.log(objeto);
             console.log(data);
 
-            if(myChart){
-                myChart.destroy();
+            if(myChart_pronosticos){
+                myChart_pronosticos.destroy();
             }
             // Crear el gráfico
-            myChart = new Chart(ctx, {
+            myChart_pronosticos = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: Array.from(Array(objeto.demanda.length).keys()),
