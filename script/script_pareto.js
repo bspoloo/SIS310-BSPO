@@ -76,8 +76,9 @@ function calcularDatos() {
 }
 
 function graficarPareto(NombreProductos,ingresoAcumulativo,porcentaje, ingresos) {
+    
 
-    console.log("graficando xd");
+    console.log("graficando xd xdxdxd");
 
     const data = {
         labels: NombreProductos,
