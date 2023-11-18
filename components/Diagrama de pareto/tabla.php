@@ -22,4 +22,6 @@ $products = $_GET["products"];
 <input type="button" value="Enviar" onclick="calcularDatos()">
 </form>
 
+
+
 <script src="../script/script2.js"></script>

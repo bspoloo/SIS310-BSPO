@@ -36,6 +36,7 @@ function calcularIndices() {
 
             objeto = JSON.parse(data);
             console.log(objeto);
+            console.log(data)
 
             if (costosVariable.length > 0) {
 
