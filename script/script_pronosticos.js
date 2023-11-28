@@ -16,7 +16,7 @@ function loadTable_pronosticos(page) {
 function calcularPronosticos() {
     var ctx = document.getElementById('chart').getContext('2d'); // Recupera el contexto del elemento del gráfico
     var parametros = new FormData(document.getElementById("form_datosp"));
-    
+
     fetch("../components/pronosticos/calcularPronosticos.php", {
         method: "POST",
         body: parametros
@@ -28,40 +28,57 @@ function calcularPronosticos() {
             console.log(objeto);
             console.log(data);
 
-            if(myChart_pronosticos){
+            if (myChart_pronosticos) {
                 myChart_pronosticos.destroy();
             }
+
             // Crear el gráfico
             myChart_pronosticos = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: Array.from(Array(objeto.demanda.length).keys()),
                     datasets: [{
-                        label: 'Original Data',
+                        label: 'Datos de la Demanda',
                         data: objeto.demanda,
                         borderColor: 'rgb(0, 0, 255)',
                     }, {
-                        label: 'Simple Moving Average',
+                        label: 'Promedio móvil simple',
                         data: objeto.promediomovilsimple,
                         borderColor: 'rgb(0, 255, 0)',
                     }, {
-                        label: 'Linear Regression',
-                        data: objeto.regresionlineal.arrayfinal,
+                        label: 'Regresión lineal',
+                        data: objeto.regresionlineal.arraypronostico,
                         borderColor: 'rgb(255, 0, 0)',
                     }, {
-                        label: 'Simple Exponential Smoothing',
+                        label: 'Suavizado exponencial simple',
                         data: objeto.suavisadoexponencialsimple,
                         borderColor: 'rgb(255, 165, 0)',
                     }]
                 }
             });
 
-           //tablas por doquier en esta parte
+            // Crear la tabla utilizando GRID.js
+            new gridjs.Grid({
+                columns: ["periodo", "demanda", "pronostico", "multiplicador estacional","pronostico ajustado", "error", "error abs", "error %"],
+                data: objeto.demanda.map((value, index) => {
+                  return [
+                    index + 1,                                              
+                    value,                                                 
+                    objeto.regresionlineal.arraypronostico[index],
+                    objeto.regresionlineal.multiplicadorEstacional[index % objeto.regresionlineal.multiplicadorEstacional.length],          
+                    objeto.regresionlineal.arraypronosticoajustado[index],  
+                    objeto.regresionlineal[0].errores[index],               
+                    objeto.regresionlineal[0].erroresAbsolutos[index],      
+                    objeto.regresionlineal[0].erroresPorcentuales[index]];
+                })
+              }).render(document.getElementById("rl_table"));
+            // Agregar otras tablas si es necesario
+
         } catch (error) {
             console.error("Error al analizar la respuesta JSON:", error);
         }
     })
     .catch(error => {
         console.error("Error en la solicitud fetch:", error);
-         });
+    });
 }

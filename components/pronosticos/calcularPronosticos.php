@@ -103,7 +103,7 @@ function suavisadoexponencialsimple($x,$y)
      }
 
 
-function regresionlineal($demanda) {
+function regresionlineal($demanda, $proporcion) {
         $m = 0;
         $b = 0;
         $demanda;
@@ -162,15 +162,59 @@ function regresionlineal($demanda) {
             $b = $sumY / $dataLength - ($m * $sumX) / $dataLength;
         }
         for ($i=1 ;$i<=count($demanda) +1 ; $i++) {
-            $arrayfinal[] = $m * $i + $b; // Multiplicar por el índice en lugar del valor
+            $arraypronostico[] = $m * $i + $b; // Multiplicar por el índice en lugar del valor
         }
-        // Regresar ambos valores como un array
-        return [
-            'm' => $m,
-            'b' => $b,
-            'arrayfinal' => $arrayfinal // Incluir $arrayfinal como un elemento del array asociativo
-        ];               
+            
+        
+        // Calcular el multiplicador estacional
+     // Calcular el multiplicador estacional
+     $multiplicadorEstacional = [];
+     for ($i = 0; $i < count($demanda) - $proporcion; $i++) {
+         $valor1 = $demanda[$i] / $arraypronostico[$i];
+         $valor2 = $demanda[$i + $proporcion] / $arraypronostico[$i + $proporcion];
+         $multiplicadorEstacional[] = ($valor1 + $valor2) / 2;
+     }
+ 
+     // Aplicar el multiplicador estacional al pronóstico para obtener el pronóstico ajustado
+     $arraypronosticoajustado = [];
+     foreach ($arraypronostico as $key => $pronostico) {
+         $index = $key % count($multiplicadorEstacional);
+         $arraypronosticoajustado[] = $pronostico * $multiplicadorEstacional[$index];
+     }
+ 
+     // Regresar todos los valores como un array
+     return [
+         'm' => $m,
+         'b' => $b,
+         'arraypronostico' => $arraypronostico,
+         'multiplicadorEstacional' => $multiplicadorEstacional,
+         'arraypronosticoajustado' => $arraypronosticoajustado,
+         calcularErrores($demanda,$arraypronosticoajustado)
+     ];
+}
+
+
+function calcularErrores($demanda, $pronostico) {
+    $errores = [];
+    $erroresAbsolutos = [];
+    $erroresPorcentuales = [];
+
+    for ($i = 0; $i < count($demanda); $i++) {
+        $error = $demanda[$i] - $pronostico[$i];
+        $errorAbsoluto = abs($error);
+        $errorPorcentual = ($errorAbsoluto / $demanda[$i]) * 100;
+
+        $errores[] = $error;
+        $erroresAbsolutos[] = $errorAbsoluto;
+        $erroresPorcentuales[] = $errorPorcentual;
     }
+
+    return [
+        'errores' => $errores,
+        'erroresAbsolutos' => $erroresAbsolutos,
+        'erroresPorcentuales' => $erroresPorcentuales
+    ];
+}
 
 
 
@@ -180,7 +224,7 @@ function regresionlineal($demanda) {
 
 $pms = promediomovilsimple($demanda); 
 $ses = suavisadoexponencialsimple($demanda,0.2); 
-$rl = regresionlineal($demanda); 
+$rl = regresionlineal($demanda, 4); 
 $todo = [
          'demanda' => $demanda,
          'promediomovilsimple' => $pms,
