@@ -1,4 +1,5 @@
 let myChart = null;
+let gridInstance = null;
 
 function loadTable_pareto(page) {
     var products_table = document.getElementById('products_table');
@@ -14,11 +15,19 @@ function loadTable_pareto(page) {
         });
 }
 function calcularDatos() {
-    console.log("calulando datos");
 
     var ingresos_table = document.getElementById("ingresos_table");
+    var paretoTableContainer = document.getElementById("pareto_table");
+    paretoTableContainer.innerHTML = "";
+    
+    console.log("aqui ta",paretoTableContainer);
+
+
     var formulario = document.getElementById("form_datos");
     var parametros = new FormData(formulario);
+
+
+    
     fetch("../components/Diagrama de pareto/calcularDatos.php",
         {
             method: "POST",
@@ -31,45 +40,28 @@ function calcularDatos() {
             objeto = JSON.parse(data);
             console.log(objeto);
 
-            ingresos_table.innerHTML = ``;
 
-            const table = document.createElement("table");
-            table.border = 1;
-            table.innerHTML = `<tr> 
-                                    <th>N°</th>
-                                    <th>Nombre</th>
-                                    <th>Unidades</th>
-                                    <th>Precio($)</th>
-                                    <th>Ingresos($)</th>
-                                    <th>Porcentaje %</th>
-                                    <th>Porcentaje acumulativo %</th>
-                                </tr>`;
-
-            for (var i = 0; i < objeto['nombres'].length; i++) {
-
-                var tr = document.createElement("tr");
-                tr.innerHTML = `
-                                <td>${i + 1}</td>
-                                <td>${objeto['nombres'][i]}</td>
-                                <td>${objeto['unidades'][i]}</td>
-                                <td>${objeto['precios'][i]}</td>
-                                <td>${objeto['ingresos'][i]}</td>
-                                <td>${objeto['porcentaje'][i]}%</td>
-                                <td>${objeto['porcentajeAcumulativo'][i]}%</td>`;
-                table.appendChild(tr);
+            if (gridInstance) {
+                gridInstance.destroy(); // Destruir la tabla existente si hay una
             }
-            table.innerHTML += `
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td>${objeto['totalesIngresos']}</td>
-                                <td>${objeto['totalesPorcentaje']}%</td>
-                                <td></td>`;
-            ingresos_table.appendChild(table);
+            
+            gridInstance = new gridjs.Grid({
+                columns: ["Nr°","Nombres", "Unidades", "Precios", "Ingresos","Porcentaje %", "Porcentaje acumulativo %"],
+                data: objeto.ingresos.map((value, index) => {
+                  return [
+                    index + 1,                                                                                    
+                    objeto['nombres'][index],
+                    objeto['unidades'][index],          
+                    objeto['precios'][index],  
+                    objeto['ingresos'][index],               
+                    objeto['porcentaje'][index],      
+                    objeto['porcentajeAcumulativo'][index],
+                    objeto['totalesIngresos'][index]];
 
+                })
+              }).render(paretoTableContainer);
+            // Agregar otras tablas si es necesario
             graficarPareto(objeto['nombres'],objeto['ingresoAcumulativo'],objeto['porcentajeAcumulativo'],objeto['ingresos']);
-
         });
 
     

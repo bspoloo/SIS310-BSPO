@@ -1,4 +1,5 @@
 let myChart_pronosticos = null;
+let gridInstance_pronosticos = null;
 
 function loadTable_pronosticos(page) {
     var pronosticos_table = document.getElementById('form_pronosticos_table');
@@ -58,7 +59,11 @@ function calcularPronosticos() {
             });
 
             // Crear la tabla utilizando GRID.js
-            new gridjs.Grid({
+            if (gridInstance_pronosticos) {
+                gridInstance_pronosticos.destroy(); // Destruir la tabla existente si hay una
+            }
+
+            gridInstance_pronosticos= new gridjs.Grid({
                 columns: ["periodo", "demanda", "pronostico", "multiplicador estacional","pronostico ajustado", "error", "error abs", "error %"],
                 data: objeto.demanda.map((value, index) => {
                   return [
