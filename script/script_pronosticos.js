@@ -15,7 +15,7 @@ function loadTable_pronosticos(page) {
 }
 
 function calcularPronosticos() {
-    var ctx = document.getElementById('chart').getContext('2d'); // Recupera el contexto del elemento del gráfico
+    var ctx = document.getElementById('myChart'); // Recupera el contexto del elemento del gráfico
     var parametros = new FormData(document.getElementById("form_datosp"));
 
     fetch("../components/pronosticos/calcularPronosticos.php", {
@@ -25,7 +25,7 @@ function calcularPronosticos() {
     .then(response => response.text())
     .then(data => {
         try {
-            let objeto = JSON.parse(data);
+            let objeto = redondearJSON(JSON.parse(data),2);
             console.log(objeto);
             console.log(data);
 
@@ -44,7 +44,7 @@ function calcularPronosticos() {
                         borderColor: 'rgb(0, 0, 255)',
                     }, {
                         label: 'Promedio móvil simple',
-                        data: objeto.promediomovilsimple,
+                        data: [null,null,null, ...objeto.promediomovilsimple],
                         borderColor: 'rgb(0, 255, 0)',
                     }, {
                         label: 'Regresión lineal',
@@ -64,7 +64,16 @@ function calcularPronosticos() {
             }
 
             gridInstance_pronosticos= new gridjs.Grid({
-                columns: ["periodo", "demanda", "pronostico", "multiplicador estacional","pronostico ajustado", "error", "error abs", "error %"],
+                columns: [
+                    { name: "periodo" },
+                    { name: "demanda"},
+                    { name: "pronostico" },
+                    { name: "(M.E)"},
+                    { name: "pronostico ajustado"},
+                    { name: "error"},
+                    { name: "error abs"},
+                    { name: "error %"}
+                ],
                 data: objeto.demanda.map((value, index) => {
                   return [
                     index + 1,                                              
@@ -87,3 +96,19 @@ function calcularPronosticos() {
         console.error("Error en la solicitud fetch:", error);
     });
 }
+
+
+function redondearJSON(objeto, decimales) {
+    if (typeof objeto === 'number') {
+      return Number(objeto.toFixed(decimales));
+    } else if (typeof objeto === 'object') {
+      for (let clave in objeto) {
+        objeto[clave] = redondearJSON(objeto[clave], decimales);
+      }
+    } else if (Array.isArray(objeto)) {
+      for (let i = 0; i < objeto.length; i++) {
+        objeto[i] = redondearJSON(objeto[i], decimales);
+      }
+    }
+    return objeto;
+  }

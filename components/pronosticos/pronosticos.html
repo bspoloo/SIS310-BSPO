@@ -1,42 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
     <div class="container">
-            <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get" id="form_pronosticos">
-                <div class="mb-2">
-                    <label for="pronosticos">Introduzca los periodos para
-                        realizar el pronostico</label>
-                    <input type="number" name="pronosticos" id="pronosticos">
-                </div>
-                <div>
-                    <input type="reset"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
-                        value="Limpiar">
-                    <input type="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
-                        value="Enviar">
-                </div>
-            </form>
-    
-            <div class="pronosticos_table" id="form_pronosticos_table">
-    
+  <div class="row">
+    <div class="three columns">
+        <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get" id="form_pronosticos">
+            <div>
+                <label for="pronosticos">Introduzca los periodos para
+                    realizar el pronostico</label>
+                <input type="number" name="pronosticos" id="pronosticos">
             </div>
-    
-            <div class="pronosticos_table" id="promediomovilsimple_table">
-    
+            <div>
+                <input type="reset" value="Limpiar"><input type="submit" value="Enviar">
             </div>
-    
-            <div id="promediomovilponderado_table">
-            </div>
-            
-            <div id="ses_table"></div>
-            <div class="pronosticos_table" id="sed_table">
-    
-            </div>
-            <div class="pronosticos_table" id="winters_table">
-    
-            </div>
-        </div>
-        <div id="rl_table"></div>
+        </form>Two
+        <div class="pronosticos_table" id="form_pronosticos_table"></div>
     </div>
-    
-    </html>
+        <div class="nine columns">
+            <div>     
+            </div>
+            <div class="pronosticos_table" id="promediomovilsimple_table"></div>
+            <div id="promediomovilponderado_table"></div>
+            <div id="ses_table"></div>
+            <div class="pronosticos_table" id="sed_table"></div>
+            <div class="pronosticos_table" id="winters_table"></div>
+            <div id="rl_table"></div>
+            <div>
+                <canvas id="myChart"></canvas>
+              </div>
+            Ten
+    </div>
+  </div>
+ </html>
