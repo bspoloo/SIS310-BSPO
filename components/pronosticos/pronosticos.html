@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-    <body class="bg-gray-100 font-sans">
-        <div class="p-8 max-w-md mx-auto bg-white rounded-md shadow-md">
-            <div class="mb-4 text-white">
-                quia magni nostrum! Sequi provident excepturi veritatis nam voluptate officia totam corporis sapiente sunt
-                autem. Ex hic, vel fuga illo odit corporis error, eveniet voluptas perspiciatis quos animi corrupti? Eos
-                dolorem soluta nulla iure, repellendus veritatis vel, tempora, a libero inventore officia recusandae. Quia
-                repudiandae, deserunt explicabo, tempore sed beatae nobis sapiente quisquam corrupti ipsa possimus officiis
-                nostrum quaerat.
-            </div>
-    
-            <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get" id="form_pronosticos" class="mb-4">
+    <div class="container">
+            <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get" id="form_pronosticos">
                 <div class="mb-2">
-                    <label for="pronosticos" class="block text-sm font-medium text-gray-700">Introduzca los periodos para
+                    <label for="pronosticos">Introduzca los periodos para
                         realizar el pronostico</label>
-                    <input type="number" name="pronosticos" id="pronosticos"
-                        class="border rounded-md px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300">
+                    <input type="number" name="pronosticos" id="pronosticos">
                 </div>
-                <div class="flex justify-between">
+                <div>
                     <input type="reset"
                         class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
                         value="Limpiar">
@@ -47,6 +37,6 @@
             </div>
         </div>
         <div id="rl_table"></div>
-    </body>
+    </div>
     
     </html>
