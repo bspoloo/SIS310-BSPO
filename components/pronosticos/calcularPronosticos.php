@@ -1,8 +1,43 @@
 <?php
 //verificar al menos 3 datos en el front porque si no se rompe
-$demanda =$_POST["demanda"];
+// Verifica si el formulario ha sido enviado
+if (isset($_GET['pronosticos']) && isset($_GET['metodo'])) {
+    // Recupera los valores del formulario
+    $pronosticos = $_GET['pronosticos'];
+    $metodo = $_GET['metodo'];
+
+    // Realiza el procesamiento según el método seleccionado
+    switch ($metodo) {
+        case 'promediomovilsimple':
+            // Tu lógica para el método "Promedio Móvil Simple"
+            break;
+        case 'regresionlineal':
+
+            $rl = regresionlineal($demanda, $proporcion);
+
+            $todo = [
+                'regresionlineal' => $rl
+            ];
+
+            break;
+        case 'suavisadoexponencialsimple':
+            // Tu lógica para el método "Suavizado Exponencial Simple"
+            break;
+        default:
+            // Manejo para un valor no esperado (puedes mostrar un mensaje de error, por ejemplo)
+            break;
+    }
+
+    // Resto de tu código...
+}
+
+
+
+
+
 $todo = array();
-function promediomovilsimple($x) {
+function promediomovilsimple($x)
+{
     if (count($x) < 3) {
         exit("Se requiere más de 3 datos antes de continuar");
     }
@@ -95,106 +130,108 @@ class SimpleExponentialSmoothing
         return $this->alpha;
     }
 }
-function suavisadoexponencialsimple($x,$y)
-    {
-        $ses = new SimpleExponentialSmoothing($x, $y);
-        $result = $ses->predict();
-        return $result;
-     }
-
-
-function regresionlineal($demanda, $proporcion) {
-        $m = 0;
-        $b = 0;
-        $demanda;
-        $index = 1;
-        foreach ($demanda as $value) {
-            $arraycorreguido[] = array($index, $value);
-            $index++;
-        }
-        $data = $arraycorreguido;
-        // Store data length in a local variable to reduce
-        // repeated array property lookups
-        $dataLength = count($data);
-    
-        // If there's only one point, arbitrarily choose a slope of 0
-        // and a y-intercept of whatever the y of the initial point is
-        if ($dataLength === 1) {
-            $m = 0;
-            $b = $data[0][1];
-        } else {
-            // Initialize our sums and scope the `m` and `b`
-            // variables that define the line.
-            $sumX = 0;
-            $sumY = 0;
-            $sumXX = 0;
-            $sumXY = 0;
-    
-            // Use local variables to grab point values
-            // with minimal array property lookups
-            $point = [];
-            $x = 0;
-            $y = 0;
-    
-            // Gather the sum of all x values, the sum of all
-            // y values, and the sum of x^2 and (x*y) for each
-            // value.
-            //
-            // In math notation, these would be SS_x, SS_y, SS_xx, and SS_xy
-            for ($i = 0; $i < $dataLength; $i++) {
-                $point = $data[$i];
-                $x = $point[0];
-                $y = $point[1];
-    
-                $sumX += $x;
-                $sumY += $y;
-    
-                $sumXX += $x * $x;
-                $sumXY += $x * $y;
-            }
-    
-            // `m` is the slope of the regression line
-            $m =
-                ($dataLength * $sumXY - $sumX * $sumY) /
-                ($dataLength * $sumXX - $sumX * $sumX);
-    
-            // `b` is the y-intercept of the line.
-            $b = $sumY / $dataLength - ($m * $sumX) / $dataLength;
-        }
-        for ($i=1 ;$i<=count($demanda) +1 ; $i++) {
-            $arraypronostico[] = $m * $i + $b; // Multiplicar por el índice en lugar del valor
-        }
-            
-        
-        // Calcular el multiplicador estacional
-     // Calcular el multiplicador estacional
-     $multiplicadorEstacional = [];
-     for ($i = 0; $i < count($demanda) - $proporcion; $i++) {
-         $valor1 = $demanda[$i] / $arraypronostico[$i];
-         $valor2 = $demanda[$i + $proporcion] / $arraypronostico[$i + $proporcion];
-         $multiplicadorEstacional[] = ($valor1 + $valor2) / 2;
-     }
- 
-     // Aplicar el multiplicador estacional al pronóstico para obtener el pronóstico ajustado
-     $arraypronosticoajustado = [];
-     foreach ($arraypronostico as $key => $pronostico) {
-         $index = $key % count($multiplicadorEstacional);
-         $arraypronosticoajustado[] = $pronostico * $multiplicadorEstacional[$index];
-     }
- 
-     // Regresar todos los valores como un array
-     return [
-         'm' => $m,
-         'b' => $b,
-         'arraypronostico' => $arraypronostico,
-         'multiplicadorEstacional' => $multiplicadorEstacional,
-         'arraypronosticoajustado' => $arraypronosticoajustado,
-         calcularErrores($demanda,$arraypronosticoajustado)
-     ];
+function suavisadoexponencialsimple($x, $y)
+{
+    $ses = new SimpleExponentialSmoothing($x, $y);
+    $result = $ses->predict();
+    return $result;
 }
 
 
-function calcularErrores($demanda, $pronostico) {
+function regresionlineal($demanda, $proporcion)
+{
+    $m = 0;
+    $b = 0;
+    $demanda;
+    $index = 1;
+    foreach ($demanda as $value) {
+        $arraycorreguido[] = array($index, $value);
+        $index++;
+    }
+    $data = $arraycorreguido;
+    // Store data length in a local variable to reduce
+    // repeated array property lookups
+    $dataLength = count($data);
+
+    // If there's only one point, arbitrarily choose a slope of 0
+    // and a y-intercept of whatever the y of the initial point is
+    if ($dataLength === 1) {
+        $m = 0;
+        $b = $data[0][1];
+    } else {
+        // Initialize our sums and scope the `m` and `b`
+        // variables that define the line.
+        $sumX = 0;
+        $sumY = 0;
+        $sumXX = 0;
+        $sumXY = 0;
+
+        // Use local variables to grab point values
+        // with minimal array property lookups
+        $point = [];
+        $x = 0;
+        $y = 0;
+
+        // Gather the sum of all x values, the sum of all
+        // y values, and the sum of x^2 and (x*y) for each
+        // value.
+        //
+        // In math notation, these would be SS_x, SS_y, SS_xx, and SS_xy
+        for ($i = 0; $i < $dataLength; $i++) {
+            $point = $data[$i];
+            $x = $point[0];
+            $y = $point[1];
+
+            $sumX += $x;
+            $sumY += $y;
+
+            $sumXX += $x * $x;
+            $sumXY += $x * $y;
+        }
+
+        // `m` is the slope of the regression line
+        $m =
+            ($dataLength * $sumXY - $sumX * $sumY) /
+            ($dataLength * $sumXX - $sumX * $sumX);
+
+        // `b` is the y-intercept of the line.
+        $b = $sumY / $dataLength - ($m * $sumX) / $dataLength;
+    }
+    for ($i = 1; $i <= count($demanda) + 1; $i++) {
+        $arraypronostico[] = $m * $i + $b; // Multiplicar por el índice en lugar del valor
+    }
+
+
+    // Calcular el multiplicador estacional
+    // Calcular el multiplicador estacional
+    $multiplicadorEstacional = [];
+    for ($i = 0; $i < count($demanda) - $proporcion; $i++) {
+        $valor1 = $demanda[$i] / $arraypronostico[$i];
+        $valor2 = $demanda[$i + $proporcion] / $arraypronostico[$i + $proporcion];
+        $multiplicadorEstacional[] = ($valor1 + $valor2) / 2;
+    }
+
+    // Aplicar el multiplicador estacional al pronóstico para obtener el pronóstico ajustado
+    $arraypronosticoajustado = [];
+    foreach ($arraypronostico as $key => $pronostico) {
+        $index = $key % count($multiplicadorEstacional);
+        $arraypronosticoajustado[] = $pronostico * $multiplicadorEstacional[$index];
+    }
+
+    // Regresar todos los valores como un array
+    return [
+        'm' => $m,
+        'b' => $b,
+        'arraypronostico' => $arraypronostico,
+        'multiplicadorEstacional' => $multiplicadorEstacional,
+        'arraypronosticoajustado' => $arraypronosticoajustado,
+        calcularErrores($demanda, $arraypronosticoajustado)
+    ];
+}
+
+
+function calcularErrores($demanda, $pronostico)
+{
     $errores = [];
     $erroresAbsolutos = [];
     $erroresPorcentuales = [];
@@ -222,17 +259,14 @@ function calcularErrores($demanda, $pronostico) {
 
 
 
-$pms = promediomovilsimple($demanda); 
-$ses = suavisadoexponencialsimple($demanda,0.2); 
-$rl = regresionlineal($demanda, 4); 
-$todo = [
-         'demanda' => $demanda,
-         'promediomovilsimple' => $pms,
-         'suavisadoexponencialsimple' => $ses,
-         'regresionlineal' => $rl
-     ];
+// $pms = promediomovilsimple($demanda); 
+// $ses = suavisadoexponencialsimple($demanda,0.2); 
+// $rl = regresionlineal($demanda, 4); 
+// $todo = [
+//          'demanda' => $demanda,
+//          'promediomovilsimple' => $pms,
+//          'suavisadoexponencialsimple' => $ses,
+//          'regresionlineal' => $rl
+//      ];
 
 echo json_encode($todo, JSON_UNESCAPED_UNICODE);
-?>
-
-
