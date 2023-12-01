@@ -3,8 +3,8 @@ function loadTablePAP(page){
 
     
     var demanda_table = document.getElementById('demanda_table');
-    var tablePAP = document.getElementById("tablePAP");
-    tablePAP.innerHTML = "";
+    var div_PAP = document.getElementById("div_PAP");
+    div_PAP.innerHTML = "";
 
     var mes1 = document.getElementById("mes1").value;
     var mes2 = document.getElementById("mes2").value;
@@ -26,8 +26,15 @@ function calcularPAP(){
 
     var horasUnidad = document.getElementById("horasUnidad").valueAsNumber;
     var horasDia = document.getElementById("horasDia").valueAsNumber;
+
     var unidadesProducidas =document.getElementById("unidadesProducidas");
     unidadesProducidas.value = horasDia/horasUnidad;
+
+    var costoMOhr = document.getElementById("costoMOhr");
+
+    costoMOhr.value = document.getElementById("costoMO").valueAsNumber/document.getElementById("horasDia").valueAsNumber;
+
+
     
 
 
@@ -35,10 +42,14 @@ function calcularPAP(){
     var parametros = new FormData(formulario);
 
     //Para cargarlo al grid
-    var tablePAP = document.getElementById("tablePAP");
+    var tablePAP = document.createElement("table");
+    tablePAP.border=1;
     tablePAP.innerHTML = "";
 
-   
+    var div_PAP = document.getElementById("div_PAP");
+    div_PAP.innerHTML="";
+
+
 
     fetch("../components/PAP/calcularPAP.php",
         {
@@ -69,9 +80,11 @@ function calcularPAP(){
                 const tr_produccionHrNormal = document.createElement("tr");
                 const tr_hrNormalNecesaria = document.createElement("tr");
                 const tr_horaHorarioNormal = document.createElement("tr");
-                const tr_costoMO = document.createElement("tr");
+                // const tr_costoMO = document.createElement("tr");
                 const tr_costoMOhrNormal = document.createElement("tr");
+
                 const tr_horaExtraNecesaria = document.createElement("tr");
+                const tr_costoHoraExtra = document.createElement("tr");
                 const tr_unidadesSubcontratadas = document.createElement("tr");
                 const tr_costoSubcontratacion = document.createElement("tr");
                 const tr_unidadesProducidas = document.createElement("tr");
@@ -99,9 +112,10 @@ function calcularPAP(){
                 tr_produccionHrNormal.innerHTML =`<th>Produccion en Hr normal</th>`;
                 tr_hrNormalNecesaria.innerHTML =`<th>Horas normal necesarias</th>`;
                 tr_horaHorarioNormal.innerHTML =`<th>Hora en horario normal</th>`;
-                tr_costoMO.innerHTML =`<th>Costo MO</th>`;
+                // tr_costoMO.innerHTML =`<th>Costo MO</th>`;
                 tr_costoMOhrNormal.innerHTML =`<th>Costo MO hora normal</th>`;
                 tr_horaExtraNecesaria.innerHTML =`<th>Horas extra necesarias</th>`;
+                tr_costoHoraExtra.innerHTML =`<th>Costo de hora extra</th>`;
                 tr_unidadesSubcontratadas.innerHTML =`<th>Unidades Subcontratadas</th>`;
                 tr_costoSubcontratacion.innerHTML =`<th>Costo de Subcontratacion</th>`;
                 tr_unidadesProducidas.innerHTML =`<th>Unidades producidas</th>`;
@@ -113,9 +127,9 @@ function calcularPAP(){
 
                 for (i = 0; i < objeto['demanda'].length; i++) {
 
-                    const td_meses = document.createElement("td");
-                    td_meses.innerHTML = `<div name="meses">${objeto['meses'][i]}<div>`;
-                    tr_meses.appendChild(td_meses);
+                    const th_meses = document.createElement("th");
+                    th_meses.innerHTML = `<div name="meses">${objeto['meses'][i]}<div>`;
+                    tr_meses.appendChild(th_meses);
 
                     const td_demanda = document.createElement("td");
                     td_demanda.innerHTML = `<div name="demanda">${objeto['demanda'][i]}<div>`;
@@ -177,9 +191,9 @@ function calcularPAP(){
                     td_horaHorarioNormal.innerHTML = `<div name="horaHorarioNormal">${objeto['horaHorarioNormal'][i]}<div>`;
                     tr_horaHorarioNormal.appendChild(td_horaHorarioNormal);
 
-                    const td_costoMO = document.createElement("td");
-                    td_costoMO.innerHTML = `<div name="costo">${objeto['costoMO'][i]+"$"}<div>`;
-                    tr_costoMO.appendChild(td_costoMO);
+                    // const td_costoMO = document.createElement("td");
+                    // td_costoMO.innerHTML = `<div name="costo">${objeto['costoMO'][i]+"$"}<div>`;
+                    // tr_costoMO.appendChild(td_costoMO);
 
                     const td_costoMOhrNormal = document.createElement("td");
                     td_costoMOhrNormal.innerHTML = `<div name="costo">${objeto['costoMOhrNormal'][i]+"$"}<div>`;
@@ -188,6 +202,10 @@ function calcularPAP(){
                     const td_horaExtraNecesaria = document.createElement("td");
                     td_horaExtraNecesaria.innerHTML = `<div name="horaExtraNecesaria">${objeto['horaExtraNecesaria'][i]}<div>`;
                     tr_horaExtraNecesaria.appendChild(td_horaExtraNecesaria);
+
+                    const td_costoHoraExtra = document.createElement("td");
+                    td_costoHoraExtra.innerHTML = `<div name="costo">${objeto['horaExtraNecesaria'][i]+"$"}<div>`;
+                    tr_costoHoraExtra.appendChild(td_costoHoraExtra);
 
                     const td_unidadesSubcontratadas = document.createElement("td");
                     td_unidadesSubcontratadas.innerHTML = `<div name="unidadesSubcontratadas">${objeto['unidadesSubcontratadas'][i]}<div>`;
@@ -205,6 +223,10 @@ function calcularPAP(){
                     td_inventario.innerHTML = `<div name="unidadesProducidas">${objeto['inventario'][i]}<div>`;
                     tr_inventario.appendChild(td_inventario);
 
+                    const td_costoAlmacenamiento = document.createElement("td");
+                    td_costoAlmacenamiento.innerHTML = `<div name="costo">${objeto['costoAlmacenamiento'][i]+"$"}<div>`;
+                    tr_costoAlmacenamiento.appendChild(td_costoAlmacenamiento);
+
                     const td_costoRotura= document.createElement("td");
                     td_costoRotura.innerHTML = `<div name="costo">${objeto['costoRotura'][i]+"$"}<div>`;
                     tr_costoRotura.appendChild(td_costoRotura);
@@ -217,7 +239,7 @@ function calcularPAP(){
                     td_costosTotales.innerHTML = `<div name="costo">${objeto['costosTotales'][i] +"$"}<div>`;
                     tr_costosTotales.appendChild(td_costosTotales);
                 }
-                tr_meses.innerHTML+=`<td><div id="total" name="total">Total</div></td>`;
+                tr_meses.innerHTML+=`<th><div id="total" name="total">Total xssxs</div></th>`;
                 tr_demanda.innerHTML+=`<td><div id="total" name="total">${objeto["totales"]["totalDemanda"]}</div></td>`;
                 tr_dias.innerHTML += `<td><div id="total" name="total">${objeto["totales"]["totalDias"]}</div></td>`;
                 tr_uniTrab.innerHTML += `<td><div id="total" name="total">${objeto["totales"]["totalUniTrab"]}</div></td>`;
@@ -233,16 +255,17 @@ function calcularPAP(){
                 tr_produccionHrNormal.innerHTML +=`<td><div id="total" name="total"></div></td>`;
                 tr_hrNormalNecesaria.innerHTML +=`<td><div id="total" name="total"></div></td>`;
                 tr_horaHorarioNormal.innerHTML +=`<td><div id="total" name="total"></div></td>`;
-                tr_costoMO.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalcostoMO"]+"$"}</div></td>`;
-                tr_costoMOhrNormal.innerHTML +=`<td><div id="total" name="total">${objeto["totales"]["totalcostoMOhrNormal"]+"$"}</div></td>`;
+                // tr_costoMO.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalcostoMO"]+"$"}</div></td>`;
+                tr_costoMOhrNormal.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalcostoMOhrNormal"]+"$"}</div></td>`;
                 tr_horaExtraNecesaria.innerHTML +=`<td><div id="total" name="total"></div></td>`;
+                tr_costoHoraExtra.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalCostoHoraExtra"]+"$"}</div></td>`;
                 tr_unidadesSubcontratadas.innerHTML +=`<td><div id="total" name="total"></div></td>`;
                 tr_costoSubcontratacion.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalCostoSubcontratacion"]+"$"}</div></td>`;
                 tr_unidadesProducidas.innerHTML +=`<td><div id="total" name="total"></div></td>`;
                 tr_inventario.innerHTML +=`<td><div id="total" name="total"></div></td>`;
                 tr_costoAlmacenamiento.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalCostoAlmacenamiento"]+"$"}</div></td>`;
                 tr_costoRotura.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalCostoRotura"]+"$"}</div></td>`;
-                tr_costoUnidadProducida.innerHTML +=`<td><div id="costo" name="total">${objeto["totales"]["totalCostoUnidadProducida"]+"$"}</div></td>`;
+                tr_costoUnidadProducida.innerHTML +=`<td><div id="costo" name="costo">${objeto["totales"]["totalCostoUnidadProducida"]+"$"}</div></td>`;
                 tr_costosTotales.innerHTML +=`<td><div id="total" name="costo">${objeto["totales"]["totalGeneral"]+"$"}</div></td>`;
 
                 tablePAP.appendChild(tr_meses);
@@ -261,16 +284,26 @@ function calcularPAP(){
                 tablePAP.appendChild(tr_produccionHrNormal);
                 tablePAP.appendChild(tr_hrNormalNecesaria);
                 tablePAP.appendChild(tr_horaHorarioNormal);
-                tablePAP.appendChild(tr_costoMO);
+                // tablePAP.appendChild(tr_costoMO);
                 tablePAP.appendChild(tr_costoMOhrNormal);
                 tablePAP.appendChild(tr_horaExtraNecesaria);
+                tablePAP.appendChild(tr_costoHoraExtra);
                 tablePAP.appendChild(tr_unidadesSubcontratadas);
                 tablePAP.appendChild(tr_costoSubcontratacion);
                 tablePAP.appendChild(tr_unidadesProducidas);
                 tablePAP.appendChild(tr_inventario);
+                tablePAP.appendChild(tr_costoAlmacenamiento);
                 tablePAP.appendChild(tr_costoRotura);
                 tablePAP.appendChild(tr_costoUnidadProducida);
                 tablePAP.appendChild(tr_costosTotales);
+
+                div_PAP.appendChild(tablePAP);
+
+                var costos = document.getElementsByName("costo");
+                for(var i =0; i<costos.length; i++){
+                    costos[i].style.backgroundColor = "#F27166";
+                }
+                
 
         });
 

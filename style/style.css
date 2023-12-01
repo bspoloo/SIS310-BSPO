@@ -4,6 +4,8 @@
     margin: 0 auto; /* Centra el contenedor en la página */
     padding: 20px; /* Espaciado interno del contenedor */
     background-color: #f8f8f8; /* Color de fondo del contenedor */
+    height: 74vh;
+
 }
 
 /* Estilo para la sección de encabezado */
@@ -20,7 +22,7 @@
     border: 1px solid #ddd; /* Borde alrededor del contenido */
     border-radius: 5px; /* Bordes redondeados */
     margin-top: 20px; /* Espacio entre el encabezado y el contenido */
-    height: 80vh;
+    height: 100%;
 
     overflow-y: auto; /* Habilita la barra de desplazamiento vertical si es necesario */
 }

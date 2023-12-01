@@ -58,35 +58,39 @@ $mesesTotal = array();
 
     <tr>
         <td><b>Costo unitario de produccion</b></td>
-        <td><input type="number" name="costoProduccion" id="costoProduccion" value=0 min=0 required></td>
+        <td><input type="number" name="costoProduccion" id="costoProduccion" value=0 min=0 step="any" required></td>
     </tr>
     <tr>
         <td><b>Costo unitario de contratacion</b></td>
-        <td><input type="number" name="costoContratacion" id="costoContratacion" value=0 min=0 required></td>
+        <td><input type="number" name="costoContratacion" id="costoContratacion" value=0 step="any" min=0 required></td>
     </tr>
     <tr>
         <td><b>Costo unitario de despido</b></td>
-        <td><input type="number" name="costoDespido" id="costoDespido" value=0 min=0 required></td>
+        <td><input type="number" name="costoDespido" id="costoDespido" value=0 step="any" min=0 required></td>
     </tr>
     <tr>
         <td><b>Costo unitario de hora extra</b></td>
-        <td><input type="number" name="costoHoraExtra" id="costoHoraExtra" value=0 min=0 required></td>
+        <td><input type="number" name="costoHoraExtra" id="costoHoraExtra" value=0 step="any" min=0 required></td>
     </tr>
     <tr>
         <td><b>Costo unitario de subcontratacion</b></td>
-        <td><input type="number" name="costoSubcontratacion" id="costoSubcontratacion" value=0 min=0 required></td>
+        <td><input type="number" name="costoSubcontratacion" id="costoSubcontratacion" value=0 step="any" min=0 required></td>
     </tr>
     <tr>
         <td><b>Costo unitario de almacenamiento</b></td>
-        <td><input type="number" name="costoAlmacenamiento" id="costoAlmacenamiento" value=0 min=0 required></td>
+        <td><input type="number" name="costoAlmacenamiento" id="costoAlmacenamiento" value=0 step="any" min=0 required></td>
     </tr>
     <tr>
         <td><b>Costo unitario de rotura</b></td>
-        <td><input type="number" name="costoRotura" id="costoRotura" value=0 min=0 required></td>
+        <td><input type="number" name="costoRotura" id="costoRotura" value=0 step="any" min=0 required></td>
     </tr>
     <tr>
         <td><b>Costo de mano de obra</b></td>
-        <td><input type="number" name="costoMO" id="costoMO" value=0 min=0 required></td>
+        <td><input type="number" name="costoMO" id="costoMO" value=0 step="any" min=0 required></td>
+    </tr>
+    <tr>
+        <td><b>Costo de mano de obra por hora</b></td>
+        <td><input type="number" name="costoMOhr" id="costoMOhr" value=0 step="any" min=0 required></td>
     </tr>
 </table>
 <br>
@@ -128,8 +132,9 @@ $mesesTotal = array();
     <select name="alternativasPAP" id="alternativasPAP">
         <option value="1">Inventario 0</option>
         <option value="2">Fuerza de trabajo constante</option>s
-        <option value="3">Subcontratando</option>
-        <option value="4">Horas extra</option>
+        <option value="3">Fuerza de trabajo mínima y subcontratación</option>
+        <option value="4">Contratar y despedir de acuerdo a la necesidad mensual exacta</option>
+        <option value="5">Fuerza de trabajo constante con horas extras</option>
     </select>
    
     <input type="submit" value="Generar"> 
