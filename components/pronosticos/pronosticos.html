@@ -1,43 +1,21 @@
 <div class="container-p">
-  <div class="row">
-    <div class="three columns">
-        <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get" id="form_pronosticos">
+    <div class="row">
+        <div class="three columns">
+            <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get"
+                id="form_pronosticos">
+
+                <div>
+                    <label for="pronosticos">Introduzca los periodos para realizar el pronóstico:</label>
+                    <input type="number" name="pronosticos" id="pronosticos" required min="3">
+                </div>                
+                <div>
+                    <input type="submit" value="Enviar">
+                </div>
+            </form>
+            <div class="pronosticos_table" id="form_pronosticos_table"></div>
+        </div>
+        <div class="">
             <div>
-                <label for="metodo">Seleccione el método:</label>
-                <select name="metodo" id="metodo">
-                  <option value="promediomovilsimple">Promedio Móvil Simple</option>
-                  <option value="regresionlineal">Regresión Lineal</option>
-                  <option value="suavisadoexponencialsimple">Suavizado Exponencial Simple</option>
-                </select>
-
-
-
-                
-                <SELECT id="mi_select" name="mi_select">
- 
-                    <OPTION value="0">WOW</OPTION>
-
-                    <OPTION value="1">DOTA</OPTION>
-
-                    <OPTION value="2">HOST</OPTION>
-
-                    <OPTION value="3">HEART</OPTION>
-
-                </SELECT>
-              </div>
-            <div>
-                <label for="pronosticos">Introduzca los periodos para
-                    realizar el pronostico</label>
-                <input type="number" name="pronosticos" id="pronosticos">
-            </div>
-            <div>
-                <input type="submit" value="Enviar">
-            </div>
-        </form>jahbdkujawd
-        <div class="pronosticos_table" id="form_pronosticos_table"></div>
-    </div>
-        <div class="nine columns">
-            <div>     
             </div>
             <div class="pronosticos_table" id="promediomovilsimple_table"></div>
             <div id="promediomovilponderado_table"></div>
@@ -47,7 +25,6 @@
             <div id="rl_table"></div>
             <div>
                 <canvas id="myChart"></canvas>
-              </div>
-          iluwhndilauns
+            </div>
+        </div>
     </div>
-</div>
