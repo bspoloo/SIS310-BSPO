@@ -1,40 +1,4 @@
 <?php
-//verificar al menos 3 datos en el front porque si no se rompe
-// Verifica si el formulario ha sido enviado
-if (isset($_GET['pronosticos']) && isset($_GET['metodo'])) {
-    // Recupera los valores del formulario
-    $pronosticos = $_GET['pronosticos'];
-    $metodo = $_GET['metodo'];
-
-    // Realiza el procesamiento según el método seleccionado
-    switch ($metodo) {
-        case 'promediomovilsimple':
-            // Tu lógica para el método "Promedio Móvil Simple"
-            break;
-        case 'regresionlineal':
-
-            $rl = regresionlineal($demanda, $proporcion);
-
-            $todo = [
-                'regresionlineal' => $rl
-            ];
-
-            break;
-        case 'suavisadoexponencialsimple':
-            // Tu lógica para el método "Suavizado Exponencial Simple"
-            break;
-        default:
-            // Manejo para un valor no esperado (puedes mostrar un mensaje de error, por ejemplo)
-            break;
-    }
-
-    // Resto de tu código...
-}
-
-
-
-
-
 $todo = array();
 function promediomovilsimple($x)
 {
@@ -257,16 +221,48 @@ function calcularErrores($demanda, $pronostico)
 
 
 
+if (isset($_POST['metodo'], $_POST['demanda'])) {
+    // Recupera los valores del formulario
+    $pronosticos = $_POST['pronosticos'];
+    $metodo = $_POST['metodo'];
+    $demanda = $_POST['demanda'];
 
+    // Incluye aquí las definiciones de las funciones promediomovilsimple, regresionlineal y suavisadoexponencialsimple
+    // ...
 
-// $pms = promediomovilsimple($demanda); 
-// $ses = suavisadoexponencialsimple($demanda,0.2); 
-// $rl = regresionlineal($demanda, 4); 
-// $todo = [
-//          'demanda' => $demanda,
-//          'promediomovilsimple' => $pms,
-//          'suavisadoexponencialsimple' => $ses,
-//          'regresionlineal' => $rl
-//      ];
+    // Realiza el procesamiento según el método seleccionado
+    switch ($metodo) {
+        case 'promediomovilsimple':
+            $pms = promediomovilsimple($demanda); // Asume que tienes una función llamada promediomovilsimple
+            $todo = [
+                'demanda' => $demanda,
+                'promediomovilsimple' => $pms
+            ];
+            echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+            break;
+        case 'regresionlineal':
+            $periodo = isset($_POST['periodo']) ? $_POST['periodo'] : null;
+            $rl = regresionlineal($demanda, $periodo); // Asume que tienes una función llamada regresionlineal
+            $todo = [
+                'demanda' => $demanda,
+                'regresionlineal' => $rl
+            ];
+            echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+            break;
+        case 'suavisadoexponencialsimple':
+            $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
+            $ses = suavisadoexponencialsimple($demanda, $alpha); // Asume que tienes una función llamada suavisadoexponencialsimple
+            $todo = [
+                'demanda' => $demanda,
+                'suavisadoexponencialsimple' => $ses
+            ];
+            echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+            break;
+        default:
+        $error = ['error' => 'Método no reconocido'];
+        echo json_encode($error, JSON_UNESCAPED_UNICODE);
+        break;
+    }
 
-echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+    // Resto de tu código...
+}
