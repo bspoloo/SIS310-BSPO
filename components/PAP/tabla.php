@@ -13,6 +13,21 @@ $meses = $meses = array(
     "Noviembre",
     "Diciembre"
 );
+$dias_por_mes = array(
+    31, // Enero
+    28, // Febrero (en años no bisiestos)
+    31, // Marzo
+    30, // Abril
+    31, // Mayo
+    30, // Junio
+    31, // Julio
+    31, // Agosto
+    30, // Septiembre
+    31, // Octubre
+    30, // Noviembre
+    31  // Diciembre
+);
+
 
 $mes1 = $_GET["mes1"];
 $mes2 = $_GET["mes2"];
@@ -37,11 +52,11 @@ $mesesTotal = array();
     </tr>
     <tr>
         <td><b>Horas para producir una unidad</b></td>
-        <td><input type="number" name="horasUnidad" id="horasUnidad" value=0 min=0.000001 step="any" required></td>
+        <td><input type="number" name="horasUnidad" id="horasUnidad" value=0 min=0.000001 step="any"  max=24 required></td>
     </tr>
     <tr>
         <td><b>Horas trabajadas al dia</b></td>
-        <td><input type="number" name="horasDia" id="horasDia" value=0 min=0 step="any" required></td>
+        <td><input type="number" name="horasDia" id="horasDia" value=0 min=0 step="any" max=24 required></td>
     </tr>
     <tr>
         <td><b>Unidades producidas en promedio por trabajador</b></td>
@@ -109,7 +124,7 @@ $mesesTotal = array();
         <?php
         for ($i = $mes1; $i <= $mes2; $i++) { ?>
 
-            <td><input type="number" name="demandas[]" id="demanda<?php echo $i?>" min=0 required></td>
+            <td><input type="number" name="demandas[]" id="demanda<?php echo $i?>" min=1 required></td>
 
         <?php }
         ?>
@@ -119,7 +134,7 @@ $mesesTotal = array();
         <?php
         for ($i = $mes1; $i <= $mes2; $i++) { ?>
 
-            <td><input type="number" name="dias[]" id="dia<?php echo $i?>"  min=0 required></td>
+            <td><input type="number" name="dias[]" id="dia<?php echo $i?>"  min=1 max=<?php echo $dias_por_mes[$i]?> required></td>
             <input type="hidden" name="mesesTotal[]" value="<?php echo $meses[$i] ?>">
         <?php }
         ?>
