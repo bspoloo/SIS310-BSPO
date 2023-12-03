@@ -99,7 +99,7 @@ input[type="button"]:hover {
 .form2{
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    
     justify-content: center;
     align-items: center;
     padding: 20px;
@@ -162,11 +162,29 @@ input[type="button"]:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
+.align-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.justify-text{
+
+    text-align: justify;
+}
+
 .form3 {
-    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
     padding: 10px;
-    background-color: #f2f2f2;
+    background-color: #5a5b5d;
     border-radius: 5px;
   }
   
@@ -179,8 +197,9 @@ input[type="button"]:hover {
     font-weight: bold;
   }
   
-  .form3 input[type="number"] {
-    width: 100%;
+  .form3 input[type="number"],
+  .form3 input[type="text"] {
+
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -204,10 +223,84 @@ input[type="button"]:hover {
   
   /* Estilos para la tabla de productos */
   .products_table {
-    border: 1px solid #ccc;
+    width: auto;
     padding: 10px;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #dcdada;
     margin-top: 20px;
+    overflow-x: auto; /* Agregar desplazamiento horizontal */
+    white-space: nowrap; /* Evita que los elementos se rompan y hagan salto de línea */
+  }
+  .informe{
+    width: auto;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #dcdada;
+    margin-top: 20px;/* Agregar desplazamiento horizontal */
+
   }
   
+  
+  /* Estilos generales de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para las celdas de encabezado */
+  th {
+    background-color: #777676;
+    font-weight: bold;
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  /* Estilos para las celdas de datos */
+  td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #1A1A1A;
+  }
+  
+  /* Estilo alternado para filas */
+  /* tr:nth-child(even) {
+    background-color: #f9f9f9;
+  } */
+  
+  /* Estilo al pasar el mouse por las filas */
+  tr:hover {
+    background-color: #e6f7ff;
+  }
+  form input[type="number"],
+  form input[type="text"] {
+
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+/* Estilos para el contenedor principal */
+.containerChart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Altura del contenedor */
+}
+
+/* Estilos para el contenedor del gráfico */
+.chartBox1 {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/* Estilos para el lienzo del gráfico */
+#myChart {
+    width: 1700px; /* Ancho del lienzo del gráfico */
+    height: 300px; /* Alto del lienzo del gráfico */
+}

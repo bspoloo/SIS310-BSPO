@@ -1,4 +1,9 @@
 function loadTable_indices(page) {
+
+
+    var informe_indiceP = document.getElementById('informe_indiceP');
+    informe_indiceP.innerHTML="";
+
     var products_table = document.getElementById('products_table');
     var products = document.getElementById("products").valueAsNumber;
 
@@ -48,9 +53,9 @@ function calcularIndices() {
         
                     costosVariable[i].innerHTML = objeto['costosVariables'][i];
                     utilidades[i].innerHTML = objeto['utilidades'][i];
-                    rentabilidadVentas[i].innerHTML = objeto['rentabilidadVentas'][i]*100+"%";
-                    indiceComercial[i].innerHTML = objeto['indiceComercial'][i]*100+"%";
-                    contribucionUtilidad[i].innerHTML = objeto['contribucionUtilidad'][i]*100+"%";
+                    rentabilidadVentas[i].innerHTML = objeto['rentabilidadVentas'][i]+"%";
+                    indiceComercial[i].innerHTML = objeto['indiceComercial'][i]+"%";
+                    contribucionUtilidad[i].innerHTML = objeto['contribucionUtilidad'][i]+"%";
 
                 }
 
@@ -92,11 +97,11 @@ function calcularIndices() {
 
                 }
 
-                tr_costosVariables.innerHTML+=`<td><div id="totalCostosVariables" name="total">Total xd</div></td>`;
-                tr_utilidades.innerHTML+=`<td><div id="totalUtilidades" name="total">Total xd</div></td>`;
+                tr_costosVariables.innerHTML+=`<td><div id="totalCostosVariables" name="total">Total</div></td>`;
+                tr_utilidades.innerHTML+=`<td><div id="totalUtilidades" name="total">Total</div></td>`;
                 tr_rentabilidadVentas.innerHTML+=`<td><div id="totalRentavilidad" name="total">Total xd</div>%</td>`;
-                tr_indiceComercial.innerHTML+=`<td><div id="totalIndice" name="total">Total xd</div>%</td>`;
-                tr_contribucionUtilidad.innerHTML+=`<td><div id="totalContribucion" name="total">Total xd</div>%</td>`;
+                tr_indiceComercial.innerHTML+=`<td><div id="totalIndice" name="total">Total</div>%</td>`;
+                tr_contribucionUtilidad.innerHTML+=`<td><div id="totalContribucion" name="total">Total</div>%</td>`;
 
                 tabla_indices_preferencia.appendChild(tr_costosVariables);
                 tabla_indices_preferencia.appendChild(tr_utilidades);
@@ -112,6 +117,25 @@ function calcularIndices() {
                     total[j].innerHTML= objeto['totales'][j];
                 }
 
+                generarInforme("Indicadores de preferencia/informe.php",objeto["nombres"],objeto["rentabilidadVentas"],objeto["indiceComercial"], objeto["contribucionUtilidad"]);
+
+        });
+
+}
+function generarInforme(page,nombres,rentVent,indeComer,contUti){
+    console.log(nombres);
+    var informe_indiceP = document.getElementById('informe_indiceP');
+    informe_indiceP.innerHTML="";
+    console.log(informe_indiceP);
+    
+    var products = document.getElementById("products").valueAsNumber;
+
+    // console.log(page+"?products="+products);
+
+    fetch(page+"?nombres="+nombres+"&rentVent="+rentVent+"&indeComer="+indeComer+"&contUti="+contUti)
+        .then(response => response.text())
+        .then(data => {
+            informe_indiceP.innerHTML = data;
         });
 }
 

@@ -24,14 +24,14 @@ $datos['precios'] = $precios;
 
 for($j=0; $j< count($nombreProductos); $j++){
 
-    $porcentaje[$j] = ($ingresos[$j]/array_sum($ingresos))*100;
+    $porcentaje[$j] = round(($ingresos[$j]/array_sum($ingresos))*100,2);
     if($j < 1){
         $porcentajeAcumulativo[$j]= $porcentaje[$j];
         $ingresoAcumulativo[$j]=$ingresos[$j];
     }
     else{
-        $porcentajeAcumulativo[$j]= $porcentaje[$j] + $porcentajeAcumulativo[$j-1];
-        $ingresoAcumulativo[$j]=$ingresos[$j]+$ingresoAcumulativo[$j-1];
+        $porcentajeAcumulativo[$j]= round($porcentaje[$j] + $porcentajeAcumulativo[$j-1],2);
+        $ingresoAcumulativo[$j]=round($ingresos[$j]+$ingresoAcumulativo[$j-1],2);
     }
 
 }

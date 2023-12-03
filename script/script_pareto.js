@@ -5,7 +5,6 @@ function loadTable_pareto(page) {
     var products_table = document.getElementById('products_table');
     var products = document.getElementById("products").valueAsNumber;
 
-    document.getElementById('ingresos_table').innerHTML = "";
     // console.log(page+"?products="+products);
 
     fetch(page + "?products=" + products)
@@ -16,7 +15,6 @@ function loadTable_pareto(page) {
 }
 function calcularDatos() {
 
-    var ingresos_table = document.getElementById("ingresos_table");
     var paretoTableContainer = document.getElementById("pareto_table");
     paretoTableContainer.innerHTML = "";
     
@@ -26,8 +24,6 @@ function calcularDatos() {
     var formulario = document.getElementById("form_datos");
     var parametros = new FormData(formulario);
 
-
-    
     fetch("../components/Diagrama de pareto/calcularDatos.php",
         {
             method: "POST",
@@ -62,6 +58,7 @@ function calcularDatos() {
               }).render(paretoTableContainer);
             // Agregar otras tablas si es necesario
             graficarPareto(objeto['nombres'],objeto['ingresoAcumulativo'],objeto['porcentajeAcumulativo'],objeto['ingresos']);
+            generarInformePareto(objeto['nombres'],objeto['porcentaje'],objeto['porcentajeAcumulativo']);
         });
 
     
@@ -150,4 +147,19 @@ function graficarPareto(NombreProductos,ingresoAcumulativo,porcentaje, ingresos)
         document.getElementById('myChart'),
         config
     );
+}
+function generarInformePareto(nombres,porcentaje,porcentajeAc){
+
+    var informe_pareto = document.getElementById('informe_pareto');
+    informe_pareto.innerHTML="";
+
+    console.log(informe_pareto);
+    
+    page = `Diagrama de pareto/informe.php`;
+
+    fetch(page+"?nombres="+nombres+"&porcentaje="+porcentaje+"&porcentajeAc="+porcentajeAc)
+        .then(response => response.text())
+        .then(data => {
+            informe_pareto.innerHTML = data;
+        });
 }
