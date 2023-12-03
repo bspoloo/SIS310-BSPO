@@ -1,7 +1,10 @@
 /* Estilo para el contenedor principal */
+body{
+  background-color: #efefef ;
+}
 .container1 {
     width: 100%;
-    height: 77vh;
+    height: 800px;
     display: flex;
     flex-direction: column;
     border: 1px solid black;
@@ -21,7 +24,7 @@
     background-color: #525050; /* Color de fondo del contenido *//* Borde alrededor del contenido */
     border-radius: 5px; /* Bordes redondeados */
     margin-top: 20px; /* Espacio entre el encabezado y el contenido */
-    height: 77vh;
+    height: 700px;
 
     overflow-y: auto; /* Habilita la barra de desplazamiento vertical si es necesario */
 }
@@ -100,8 +103,7 @@ input[type="button"]:hover {
     display: flex;
     flex-direction: column;
     
-    justify-content: center;
-    align-items: center;
+
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -184,8 +186,9 @@ input[type="button"]:hover {
     align-items: center;
     width: auto;
     padding: 10px;
-    background-color: #5a5b5d;
     border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
   }
   
   .form3 div {
@@ -212,7 +215,7 @@ input[type="button"]:hover {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color: #0b5ed7;
     color: white;
   }
   
@@ -226,7 +229,8 @@ input[type="button"]:hover {
     width: auto;
     padding: 10px;
     border-radius: 5px;
-    background-color: #dcdada;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
     margin-top: 20px;
     overflow-x: auto; /* Agregar desplazamiento horizontal */
     white-space: nowrap; /* Evita que los elementos se rompan y hagan salto de línea */
@@ -235,7 +239,8 @@ input[type="button"]:hover {
     width: auto;
     padding: 10px;
     border-radius: 5px;
-    background-color: #dcdada;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
     margin-top: 20px;/* Agregar desplazamiento horizontal */
 
   }
@@ -250,11 +255,12 @@ table {
   
   /* Estilos para las celdas de encabezado */
   th {
-    background-color: #777676;
+    background-color: #36738e;
     font-weight: bold;
     padding: 8px;
     text-align: left;
     border: 1px solid #ddd;
+    color: white;
   }
   
   /* Estilos para las celdas de datos */
@@ -303,4 +309,43 @@ table {
 #myChart {
     width: 1700px; /* Ancho del lienzo del gráfico */
     height: 300px; /* Alto del lienzo del gráfico */
+}
+
+
+
+.bg-green{
+  background-color: #76d272;
+}
+.bg-blue{
+  background-color: #0e3d71;
+}
+.bg-red{
+  background-color: #8d1042;
+}
+.bg-yellow{
+  background-color: #f4d279;
+}
+.bg-orange{
+  background-color: #e58634;
+}
+
+/* Estilo base para el select */
+select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  appearance: none; /* Para quitar el estilo nativo del navegador en algunos casos */
+}
+
+/* Estilo al hacer hover sobre el select */
+select:hover {
+  border-color: #999;
+}
+
+/* Estilo al enfocar el select */
+select:focus {
+  outline: none; /* Quita el borde de enfoque predeterminado */
+  border-color: #555;
+  box-shadow: 0 0 5px rgba(85, 85, 85, 0.5); /* Efecto de sombra al enfocar */
 }

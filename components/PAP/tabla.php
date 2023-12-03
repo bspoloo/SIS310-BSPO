@@ -37,8 +37,9 @@ $mesesTotal = array();
 // echo $mes1 . " Y " . $mes2;
 
 ?> 
-<form  action="javascript:calcularPAP()" class="form2" id="form_demandaPAP">
 
+
+<form  action="javascript:calcularPAP()" class="" id="form_demandaPAP">
 
 <table>
     <div>Datos necesarios</div>
@@ -145,11 +146,11 @@ $mesesTotal = array();
 
 <label for="alternativasPAP">Selccione una alternativa</label>
     <select name="alternativasPAP" id="alternativasPAP">
-        <option value="1">Inventario 0</option>
-        <option value="2">Fuerza de trabajo constante</option>s
-        <option value="3">Fuerza de trabajo mínima y subcontratación</option>
-        <option value="4">Contratar y despedir de acuerdo a la necesidad mensual exacta</option>
-        <option value="5">Fuerza de trabajo constante con horas extras</option>
+        <option value=1>Inventario 0</option>
+        <option value=2>Fuerza de trabajo constante</option>s
+        <option value=3>Fuerza de trabajo mínima y subcontratación</option>
+        <option value=4>Contratar y despedir de acuerdo a la necesidad mensual exacta</option>
+        <option value=5>Fuerza de trabajo constante con horas extras</option>
     </select>
    
     <input type="submit" value="Generar"> 
@@ -157,6 +158,7 @@ $mesesTotal = array();
 </div>
 
 </form>
+
 
 
 <script src="/script/script_PAP.js"></script>
