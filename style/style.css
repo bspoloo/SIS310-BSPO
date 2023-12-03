@@ -215,7 +215,7 @@ input[type="button"]:hover {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color: #0b5ed7;
     color: white;
   }
   
@@ -327,4 +327,25 @@ table {
 }
 .bg-orange{
   background-color: #e58634;
+}
+
+/* Estilo base para el select */
+select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  appearance: none; /* Para quitar el estilo nativo del navegador en algunos casos */
+}
+
+/* Estilo al hacer hover sobre el select */
+select:hover {
+  border-color: #999;
+}
+
+/* Estilo al enfocar el select */
+select:focus {
+  outline: none; /* Quita el borde de enfoque predeterminado */
+  border-color: #555;
+  box-shadow: 0 0 5px rgba(85, 85, 85, 0.5); /* Efecto de sombra al enfocar */
 }
