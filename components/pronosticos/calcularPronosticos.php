@@ -4,6 +4,9 @@ function promediomovilsimple($demanda, $n)
 {
     $movilSimple = [];
 
+    // Agregar nulls al principio según el valor de $n
+    $movilSimple = array_pad($movilSimple, count($movilSimple) + $n, null);
+
     // Cambié la condición para incluir el último valor
     for ($i = $n - 1; $i < count($demanda); $i++) {
         $sumaPeriodos = 0;
@@ -53,191 +56,6 @@ function promedioMovilPonderado($demandas, $pesos, $n, $alcance)
     }
 
     return $promedioponderado;
-}
-
-class DoubleExponentialSmoothing
-{
-    public $data;
-    public $alpha;
-    public $forecast;
-
-    public function __construct($data, $alpha)
-    {
-        if ($data === null) {
-            throw new Exception("data parameter is null");
-        } elseif (count($data) < 2) {
-            throw new Exception("data doesn't contain enough data to make a prediction");
-        }
-
-        if ($alpha > 1 || $alpha < 0) {
-            throw new Exception("alpha parameter must be between 0 and 1");
-        }
-
-        $this->data = $data;
-        $this->alpha = $alpha;
-        $this->forecast = null;
-    }
-
-    public function predict($horizon)
-    {
-        $smoothings = [
-            'first' => [],
-            'second' => [],
-            'a' => [],
-            'b' => []
-        ];
-
-        $smoothings['first'][0] = $this->data[0];
-        $smoothings['first'][1] = $this->data[1];
-
-        for ($i = 2; $i < count($this->data); ++$i) {
-            $smoothings['first'][$i] = $this->alpha * $this->data[$i] + (1 - $this->alpha) * $smoothings['first'][$i - 1];
-        }
-
-        $smoothings['second'][0] = $smoothings['first'][0];
-        for ($i = 1; $i < count($this->data); ++$i) {
-            $smoothings['second'][$i] = $this->alpha * $smoothings['first'][$i] + (1 - $this->alpha) * $smoothings['second'][$i - 1];
-        }
-
-        for ($i = 1; $i < count($this->data); ++$i) {
-            $smoothings['a'][$i] = ($this->alpha / (1 - $this->alpha)) * ($smoothings['first'][$i] - $smoothings['second'][$i]);
-            $smoothings['b'][$i] = 2 * $smoothings['first'][$i] - $smoothings['second'][$i];
-        }
-
-        $forecast = [null, null];
-        for ($i = 2; $i <= count($this->data); ++$i) {
-            $forecast[$i] = $smoothings['a'][$i - 1] + $smoothings['b'][$i - 1];
-        }
-
-        for ($i = count($this->data) + 1; $i < count($this->data) + $horizon; ++$i) {
-            $forecast[$i] = $forecast[$i - 1] + $smoothings['a'][count($this->data) - 1];
-        }
-
-        $this->forecast = $forecast;
-        return $forecast;
-    }
-
-    public function getForecast()
-    {
-        if ($this->forecast === null) {
-            return null;
-        }
-        return $this->forecast;
-    }
-
-    public function computeMeanSquaredError()
-    {
-        $SSE = 0.0;
-        $n = 0;
-        for ($i = 0; $i < count($this->data); ++$i) {
-            if ($this->data[$i] !== null && $this->forecast[$i] !== null) {
-                $SSE += pow($this->data[$i] - $this->forecast[$i], 2);
-                $n++;
-            }
-        }
-        return 1 / ($n - 1) * $SSE;
-    }
-
-    public function optimizeParameter($iter)
-    {
-        $incr = 1 / $iter;
-        $bestAlpha = 0.0;
-        $bestError = -1;
-        $this->alpha = $bestAlpha;
-
-        while ($this->alpha < 1) {
-            $forecast = $this->predict(1);
-            $error = $this->computeMeanSquaredError();
-            if ($error < $bestError || $bestError == -1) {
-                $bestAlpha = $this->alpha;
-                $bestError = $error;
-            }
-            $this->alpha += $incr;
-        }
-
-        $this->alpha = $bestAlpha;
-        return $this->alpha;
-    }
-}
-
-class SimpleExponentialSmoothing
-{
-    private $data;
-    private $alpha;
-    private $forecast;
-
-    public function __construct($data, $alpha)
-    {
-        if ($data == null) {
-            throw new Exception("data parameter is null");
-        } elseif (count($data) < 2) {
-            throw new Exception("data doesn't contain enough data to make a prediction");
-        }
-
-        if ($alpha > 1 || $alpha < 0) {
-            throw new Exception("alpha parameter must be between 0 and 1");
-        }
-
-        $this->data = $data;
-        $this->alpha = $alpha;
-        $this->forecast = null;
-    }
-
-    public function predict()
-    {
-        $forecast = array();
-        $forecast[0] = null;
-        $forecast[1] = 0.5 * ($this->data[0] + $this->data[1]);
-
-        for ($i = 2; $i <= count($this->data); ++$i) {
-            $forecast[$i] = $this->alpha * ($this->data[$i - 1] - $forecast[$i - 1]) + $forecast[$i - 1];
-        }
-
-        $this->forecast = $forecast;
-        return $forecast;
-    }
-
-    public function getForecast()
-    {
-        if ($this->forecast == null) {
-            $this->predict();
-        }
-        return $this->forecast;
-    }
-
-    public function computeMeanSquaredError()
-    {
-        $SSE = 0.0;
-        $n = 0;
-        for ($i = 0; $i < count($this->data); ++$i) {
-            if ($this->data[$i] != null && $this->forecast[$i] != null) {
-                $SSE += pow($this->data[$i] - $this->forecast[$i], 2);
-                $n++;
-            }
-        }
-        return 1 / ($n - 1) * $SSE;
-    }
-
-    public function optimizeParameter($iter)
-    {
-        $incr = 1 / $iter;
-        $bestAlpha = 0.0;
-        $bestError = -1;
-        $this->alpha = $bestAlpha;
-
-        while ($this->alpha < 1) {
-            $forecast = $this->predict();
-            $error = $this->computeMeanSquaredError();
-            if ($error < $bestError || $bestError == -1) {
-                $bestAlpha = $this->alpha;
-                $bestError = $error;
-            }
-            $this->alpha += $incr;
-        }
-
-        $this->alpha = $bestAlpha;
-        return $this->alpha;
-    }
 }
 
 function regresionlineal($demanda, $proporcion, $alcance)
@@ -345,39 +163,167 @@ function calcularErrores($demanda, $pronostico)
     $errores = [];
     $erroresAbsolutos = [];
     $erroresPorcentuales = [];
+    $erroresCuadraticos = [];
 
     for ($i = 0; $i < count($demanda); $i++) {
         $error = $demanda[$i] - $pronostico[$i];
         $errorAbsoluto = abs($error);
         $errorPorcentual = ($errorAbsoluto / $demanda[$i]) * 100;
+        $errorCuadratico = $error * $error;
 
         $errores[] = $error;
         $erroresAbsolutos[] = $errorAbsoluto;
         $erroresPorcentuales[] = $errorPorcentual;
+        $erroresCuadraticos[] = $errorCuadratico;
     }
 
     return [
         'errores' => $errores,
         'erroresAbsolutos' => $erroresAbsolutos,
-        'erroresPorcentuales' => $erroresPorcentuales
+        'erroresPorcentuales' => $erroresPorcentuales,
+        'erroresCuadraticos' => $erroresCuadraticos
     ];
 }
 
 
 
+
 function suavisadoexponencialsimple($x, $y)
 {
-    $ses = new SimpleExponentialSmoothing($x, $y);
-    $result = $ses->predict();
+    $sed = new SimpleExponentialSmoothing($x, $y);
+    $result = $sed->predict();
     return $result;
 }
 
-function suavisadoexponencialdoble($x, $y,$alcance)
+
+class SimpleExponentialSmoothing
 {
-    $ses = new DoubleExponentialSmoothing($x, $y);
-    $result = $ses->predict($alcance);
-    return $result;
+    private $data;
+    private $alpha;
+    private $forecast;
+
+    public function __construct($data, $alpha)
+    {
+        if ($data == null) {
+            throw new Exception("data parameter is null");
+        } elseif (count($data) < 2) {
+            throw new Exception("data doesn't contain enough data to make a prediction");
+        }
+
+        if ($alpha > 1 || $alpha < 0) {
+            throw new Exception("alpha parameter must be between 0 and 1");
+        }
+
+        $this->data = $data;
+        $this->alpha = $alpha;
+        $this->forecast = null;
+    }
+
+    public function predict()
+    {
+        $forecast = array();
+        $forecast[0] = $this->data[0]; // Utilizar el primer dato de la demanda como el primer dato en el pronóstico
+        $forecast[1] = 0.5 * ($this->data[0] + $this->data[1]);
+
+        for ($i = 2; $i <= count($this->data); ++$i) {
+            $forecast[$i] = $this->alpha * ($this->data[$i - 1] - $forecast[$i - 1]) + $forecast[$i - 1];
+        }
+
+        $this->forecast = $forecast;
+        return $forecast;
+    }
+
+    public function getForecast()
+    {
+        if ($this->forecast == null) {
+            $this->predict();
+        }
+        return $this->forecast;
+    }
 }
+
+
+
+class HoltSmoothing
+{
+    public $data;
+    public $alpha;
+    public $beta;
+    public $forecast;
+
+    public function __construct($data, $alpha, $beta)
+    {
+        if ($data == null) {
+            throw new Exception("data parameter is null");
+        } elseif (count($data) < 2) {
+            throw new Exception("data doesn't contain enough data to make a prediction");
+        }
+
+        if ($alpha > 1 || $alpha < 0) {
+            throw new Exception("alpha parameter must be between 0 and 1");
+        }
+
+        if ($beta > 1 || $beta < 0) {
+            throw new Exception("beta parameter must be between 0 and 1");
+        }
+
+        $this->data = $data;
+        $this->alpha = $alpha;
+        $this->beta = $beta;
+        $this->forecast = null;
+    }
+
+    public function predict($horizon)
+    {
+        $A = array();
+        $B = array();
+
+        $A[0] = 0;
+        $B[0] = $this->data[0];
+
+        for ($i = 1; $i < count($this->data); ++$i) {
+            $B[$i] = $this->alpha * $this->data[$i] + (1 - $this->alpha) * ($B[$i - 1] + $A[$i - 1]);
+            $A[$i] = $this->beta * ($B[$i] - $B[$i - 1]) + (1 - $this->beta) * $A[$i - 1];
+        }
+
+        $forecast = array();
+        $forecast[0] = null;
+        for ($i = 1; $i <= count($this->data); ++$i) {
+            $forecast[$i] = $A[$i - 1] + $B[$i - 1];
+        }
+
+        for ($i = count($this->data) + 1; $i < count($this->data) + $horizon; ++$i) {
+            $forecast[$i] = $forecast[$i - 1] + $A[count($this->data) - 1];
+        }
+
+        $this->forecast = $forecast;
+        return $forecast;
+    }
+
+    public function getForecast()
+    {
+        if ($this->forecast == null) {
+            return null;
+        }
+        return $this->forecast;
+    }
+
+}
+
+
+function suavisadoexponencialdoble($demanda, $alpha, $beta, $alcance)
+{
+    $ses = new HoltSmoothing($demanda, $alpha, $beta);
+
+    // Realizar la predicción con el horizonte especificado
+    $pronosticos = $ses->predict($alcance);
+
+    // Obtener el array final con los pronósticos
+    return $pronosticos;
+}
+
+
+
 
 
 if (isset($_POST['metodo'], $_POST['demanda'])) {
@@ -429,11 +375,12 @@ if (isset($_POST['metodo'], $_POST['demanda'])) {
         case 'suavisadoexponencialdoble':
                 $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
                 $alcance = $_POST['alcance'];
-                $sed = suavisadoexponencialdoble($demanda, $alpha, $alcance );
+                
+                $sed = suavisadoexponencialdoble($demanda, $alpha,$beta, $alcance );
                 $todo = [
                     'demanda' => $demanda,
                     'suavisadoexponencialdoble' => $sed,
-                    calcularErrores($demanda, $sed)
+                    //calcularErrores($demanda, $sed)
                 ];
                 echo json_encode($todo, JSON_UNESCAPED_UNICODE);
                 break;
