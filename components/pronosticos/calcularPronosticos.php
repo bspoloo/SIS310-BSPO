@@ -25,7 +25,7 @@ function promediomovilsimple($demanda, $n)
 function promedioMovilPonderado($demandas, $pesos, $n, $alcance)
 {
 
-    $promedioPonderado = [];
+    $promedioponderado = [];
 
     for ($i = $n - 1; $i < count($demandas); $i++) {
         $sumaPonderada = 0;
@@ -35,7 +35,7 @@ function promedioMovilPonderado($demandas, $pesos, $n, $alcance)
         }
 
         $promedio = round($sumaPonderada, 2);
-        $promedioPonderado[] = $promedio;
+        $promedioponderado[] = $promedio;
     }
 
     // Realizar iteraciones a futuro
@@ -47,223 +47,12 @@ function promedioMovilPonderado($demandas, $pesos, $n, $alcance)
         }
 
         $promedio = round($sumaPonderada, 2);
-        $promedioPonderado[] = $promedio;
+        $promedioponderado[] = $promedio;
 
-        array_push($demandas, $promedio);  
+        array_push($demandas, $promedio);
     }
 
-    //ayuhd8iawh falta return
-}
-
-
-
-class SimpleExponentialSmoothing
-{
-    private $data;
-    private $alpha;
-    private $forecast;
-
-    public function __construct($data, $alpha)
-    {
-        if ($data == null) {
-            throw new Exception("data parameter is null");
-        } elseif (count($data) < 2) {
-            throw new Exception("data doesn't contain enough data to make a prediction");
-        }
-
-        if ($alpha > 1 || $alpha < 0) {
-            throw new Exception("alpha parameter must be between 0 and 1");
-        }
-
-        $this->data = $data;
-        $this->alpha = $alpha;
-        $this->forecast = null;
-    }
-
-    public function predict()
-    {
-        $forecast = array();
-        $forecast[0] = null;
-        $forecast[1] = 0.5 * ($this->data[0] + $this->data[1]);
-
-        for ($i = 2; $i <= count($this->data); ++$i) {
-            $forecast[$i] = $this->alpha * ($this->data[$i - 1] - $forecast[$i - 1]) + $forecast[$i - 1];
-        }
-
-        $this->forecast = $forecast;
-        return $forecast;
-    }
-
-    public function getForecast()
-    {
-        if ($this->forecast == null) {
-            $this->predict();
-        }
-        return $this->forecast;
-    }
-
-    public function computeMeanSquaredError()
-    {
-        $SSE = 0.0;
-        $n = 0;
-        for ($i = 0; $i < count($this->data); ++$i) {
-            if ($this->data[$i] != null && $this->forecast[$i] != null) {
-                $SSE += pow($this->data[$i] - $this->forecast[$i], 2);
-                $n++;
-            }
-        }
-        return 1 / ($n - 1) * $SSE;
-    }
-
-    public function optimizeParameter($iter)
-    {
-        $incr = 1 / $iter;
-        $bestAlpha = 0.0;
-        $bestError = -1;
-        $this->alpha = $bestAlpha;
-
-        while ($this->alpha < 1) {
-            $forecast = $this->predict();
-            $error = $this->computeMeanSquaredError();
-            if ($error < $bestError || $bestError == -1) {
-                $bestAlpha = $this->alpha;
-                $bestError = $error;
-            }
-            $this->alpha += $incr;
-        }
-
-        $this->alpha = $bestAlpha;
-        return $this->alpha;
-    }
-}
-function suavisadoexponencialsimple($x, $y)
-{
-    $ses = new SimpleExponentialSmoothing($x, $y);
-    $result = $ses->predict();
-    return $result;
-}
-
-
-function regresionlineal($demanda, $proporcion, $alcance) {
-    $m = 0;
-    $b = 0;
-
-    $index = 1;
-    foreach ($demanda as $value) {
-        $arraycorreguido[] = array($index, $value);
-        $index++;
-    }
-    $data = $arraycorreguido;
-    // Store data length in a local variable to reduce
-    // repeated array property lookups
-    $dataLength = count($data);
-
-    // If there's only one point, arbitrarily choose a slope of 0
-    // and a y-intercept of whatever the y of the initial point is
-    if ($dataLength === 1) {
-        $m = 0;
-        $b = $data[0][1];
-    } else {
-        // Initialize our sums and scope the `m` and `b`
-        // variables that define the line.
-        $sumX = 0;
-        $sumY = 0;
-        $sumXX = 0;
-        $sumXY = 0;
-
-        // Use local variables to grab point values
-        // with minimal array property lookups
-        $point = [];
-        $x = 0;
-        $y = 0;
-
-        // Gather the sum of all x values, the sum of all
-        // y values, and the sum of x^2 and (x*y) for each
-        // value.
-        //
-        // In math notation, these would be SS_x, SS_y, SS_xx, and SS_xy
-        for ($i = 0; $i < $dataLength; $i++) {
-            $point = $data[$i];
-            $x = $point[0];
-            $y = $point[1];
-
-            $sumX += $x;
-            $sumY += $y;
-
-            $sumXX += $x * $x;
-            $sumXY += $x * $y;
-        }
-
-        // `m` is the slope of the regression line
-        $m =
-            ($dataLength * $sumXY - $sumX * $sumY) /
-            ($dataLength * $sumXX - $sumX * $sumX);
-
-        // `b` is the y-intercept of the line.
-        $b = $sumY / $dataLength - ($m * $sumX) / $dataLength;
-    }
-   
-    for ($index=1;$index<=(count($demanda)+$alcance) ; $index++) {
-        $arraypronostico[] = $m * $index + $b; // Multiplicar por el índice en lugar del valor
-    }
-        
-    
-    // Calcular el multiplicador estacional
- // Calcular el multiplicador estacional
- $multiplicadorEstacional = [];
- for ($i = 0; $i < count($demanda) - $proporcion; $i++) {
-     $valor1 = $demanda[$i] / $arraypronostico[$i];
-     $valor2 = $demanda[$i + $proporcion] / $arraypronostico[$i + $proporcion];
-
-     $valoresDepuracion[] = [
-        'Valor1' => $valor1,
-        'Valor2' => $valor2
-    ];
-     $multiplicadorEstacional[] = ($valor1 + $valor2) / 2;
- }
- 
- // Aplicar el multiplicador estacional al pronóstico para obtener el pronóstico ajustado
- $arraypronosticoajustado = [];
- foreach ($arraypronostico as $key => $pronostico) {
-     $index = $key % count($multiplicadorEstacional);
-     $arraypronosticoajustado[] = $pronostico * $multiplicadorEstacional[$index];
- }
-
- // Regresar todos los valores como un array
- return [
-     'm' => $m,
-     'b' => $b,
-     'arraypronostico' => $arraypronostico,
-     'multiplicadorEstacional' => $multiplicadorEstacional,
-     'arraypronosticoajustado' => $arraypronosticoajustado,
-     'otros' => $valoresDepuracion,
-     calcularErrores($demanda, $arraypronosticoajustado)
- ];
-}
-
-
-
-function calcularErrores($demanda, $pronostico)
-{
-    $errores = [];
-    $erroresAbsolutos = [];
-    $erroresPorcentuales = [];
-
-    for ($i = 0; $i < count($demanda); $i++) {
-        $error = $demanda[$i] - $pronostico[$i];
-        $errorAbsoluto = abs($error);
-        $errorPorcentual = ($errorAbsoluto / $demanda[$i]) * 100;
-
-        $errores[] = $error;
-        $erroresAbsolutos[] = $errorAbsoluto;
-        $erroresPorcentuales[] = $errorPorcentual;
-    }
-
-    return [
-        'errores' => $errores,
-        'erroresAbsolutos' => $erroresAbsolutos,
-        'erroresPorcentuales' => $erroresPorcentuales
-    ];
+    return $promedioponderado;
 }
 
 class DoubleExponentialSmoothing
@@ -371,9 +160,224 @@ class DoubleExponentialSmoothing
     }
 }
 
+class SimpleExponentialSmoothing
+{
+    private $data;
+    private $alpha;
+    private $forecast;
+
+    public function __construct($data, $alpha)
+    {
+        if ($data == null) {
+            throw new Exception("data parameter is null");
+        } elseif (count($data) < 2) {
+            throw new Exception("data doesn't contain enough data to make a prediction");
+        }
+
+        if ($alpha > 1 || $alpha < 0) {
+            throw new Exception("alpha parameter must be between 0 and 1");
+        }
+
+        $this->data = $data;
+        $this->alpha = $alpha;
+        $this->forecast = null;
+    }
+
+    public function predict()
+    {
+        $forecast = array();
+        $forecast[0] = null;
+        $forecast[1] = 0.5 * ($this->data[0] + $this->data[1]);
+
+        for ($i = 2; $i <= count($this->data); ++$i) {
+            $forecast[$i] = $this->alpha * ($this->data[$i - 1] - $forecast[$i - 1]) + $forecast[$i - 1];
+        }
+
+        $this->forecast = $forecast;
+        return $forecast;
+    }
+
+    public function getForecast()
+    {
+        if ($this->forecast == null) {
+            $this->predict();
+        }
+        return $this->forecast;
+    }
+
+    public function computeMeanSquaredError()
+    {
+        $SSE = 0.0;
+        $n = 0;
+        for ($i = 0; $i < count($this->data); ++$i) {
+            if ($this->data[$i] != null && $this->forecast[$i] != null) {
+                $SSE += pow($this->data[$i] - $this->forecast[$i], 2);
+                $n++;
+            }
+        }
+        return 1 / ($n - 1) * $SSE;
+    }
+
+    public function optimizeParameter($iter)
+    {
+        $incr = 1 / $iter;
+        $bestAlpha = 0.0;
+        $bestError = -1;
+        $this->alpha = $bestAlpha;
+
+        while ($this->alpha < 1) {
+            $forecast = $this->predict();
+            $error = $this->computeMeanSquaredError();
+            if ($error < $bestError || $bestError == -1) {
+                $bestAlpha = $this->alpha;
+                $bestError = $error;
+            }
+            $this->alpha += $incr;
+        }
+
+        $this->alpha = $bestAlpha;
+        return $this->alpha;
+    }
+}
+
+function regresionlineal($demanda, $proporcion, $alcance)
+{
+    $m = 0;
+    $b = 0;
+
+    $index = 1;
+    foreach ($demanda as $value) {
+        $arraycorreguido[] = array($index, $value);
+        $index++;
+    }
+    $data = $arraycorreguido;
+    // Store data length in a local variable to reduce
+    // repeated array property lookups
+    $dataLength = count($data);
+
+    // If there's only one point, arbitrarily choose a slope of 0
+    // and a y-intercept of whatever the y of the initial point is
+    if ($dataLength === 1) {
+        $m = 0;
+        $b = $data[0][1];
+    } else {
+        // Initialize our sums and scope the `m` and `b`
+        // variables that define the line.
+        $sumX = 0;
+        $sumY = 0;
+        $sumXX = 0;
+        $sumXY = 0;
+
+        // Use local variables to grab point values
+        // with minimal array property lookups
+        $point = [];
+        $x = 0;
+        $y = 0;
+
+        // Gather the sum of all x values, the sum of all
+        // y values, and the sum of x^2 and (x*y) for each
+        // value.
+        //
+        // In math notation, these would be SS_x, SS_y, SS_xx, and SS_xy
+        for ($i = 0; $i < $dataLength; $i++) {
+            $point = $data[$i];
+            $x = $point[0];
+            $y = $point[1];
+
+            $sumX += $x;
+            $sumY += $y;
+
+            $sumXX += $x * $x;
+            $sumXY += $x * $y;
+        }
+
+        // `m` is the slope of the regression line
+        $m =
+            ($dataLength * $sumXY - $sumX * $sumY) /
+            ($dataLength * $sumXX - $sumX * $sumX);
+
+        // `b` is the y-intercept of the line.
+        $b = $sumY / $dataLength - ($m * $sumX) / $dataLength;
+    }
+
+    for ($index = 1; $index <= (count($demanda) + $alcance); $index++) {
+        $arraypronostico[] = $m * $index + $b; // Multiplicar por el índice en lugar del valor
+    }
+
+
+    // Calcular el multiplicador estacional
+    // Calcular el multiplicador estacional
+    $multiplicadorEstacional = [];
+    for ($i = 0; $i < count($demanda) - $proporcion; $i++) {
+        $valor1 = $demanda[$i] / $arraypronostico[$i];
+        $valor2 = $demanda[$i + $proporcion] / $arraypronostico[$i + $proporcion];
+
+        $valoresDepuracion[] = [
+            'Valor1' => $valor1,
+            'Valor2' => $valor2
+        ];
+        $multiplicadorEstacional[] = ($valor1 + $valor2) / 2;
+    }
+
+    // Aplicar el multiplicador estacional al pronóstico para obtener el pronóstico ajustado
+    $arraypronosticoajustado = [];
+    foreach ($arraypronostico as $key => $pronostico) {
+        $index = $key % count($multiplicadorEstacional);
+        $arraypronosticoajustado[] = $pronostico * $multiplicadorEstacional[$index];
+    }
+
+    // Regresar todos los valores como un array
+    return [
+        'm' => $m,
+        'b' => $b,
+        'arraypronostico' => $arraypronostico,
+        'multiplicadorEstacional' => $multiplicadorEstacional,
+        'arraypronosticoajustado' => $arraypronosticoajustado,
+        'otros' => $valoresDepuracion,
+        calcularErrores($demanda, $arraypronosticoajustado)
+    ];
+}
 
 
 
+function calcularErrores($demanda, $pronostico)
+{
+    $errores = [];
+    $erroresAbsolutos = [];
+    $erroresPorcentuales = [];
+
+    for ($i = 0; $i < count($demanda); $i++) {
+        $error = $demanda[$i] - $pronostico[$i];
+        $errorAbsoluto = abs($error);
+        $errorPorcentual = ($errorAbsoluto / $demanda[$i]) * 100;
+
+        $errores[] = $error;
+        $erroresAbsolutos[] = $errorAbsoluto;
+        $erroresPorcentuales[] = $errorPorcentual;
+    }
+
+    return [
+        'errores' => $errores,
+        'erroresAbsolutos' => $erroresAbsolutos,
+        'erroresPorcentuales' => $erroresPorcentuales
+    ];
+}
+
+
+
+function suavisadoexponencialsimple($x, $y)
+{
+    $ses = new SimpleExponentialSmoothing($x, $y);
+    $result = $ses->predict();
+    return $result;
+}
+
+function suavisadoexponencialdoble($x, $y,$alcance)
+{
+    $ses = new DoubleExponentialSmoothing($x, $y);
+    $result = $ses->predict($alcance);
+    return $result;
+}
 
 
 if (isset($_POST['metodo'], $_POST['demanda'])) {
@@ -383,17 +387,29 @@ if (isset($_POST['metodo'], $_POST['demanda'])) {
     switch ($metodo) {
         case 'promediomovilsimple':
             $n = $_POST['n'];
-            $pms = promediomovilsimple($demanda, $n); // Asume que tienes una función llamada promediomovilsimple
+            $pms = promediomovilsimple($demanda, $n);
             $todo = [
                 'demanda' => $demanda,
                 'promediomovilsimple' => $pms,
             ];
             echo json_encode($todo, JSON_UNESCAPED_UNICODE);
             break;
+        case 'promediomovilponderado':
+            $n = $_POST['n'];
+            $pesos = $_POST['pesos'];
+            $alcance = $_POST['alcance'];
+            $pmp = promedioMovilPonderado($demanda, $pesos, $n, $alcance);
+            $todo = [
+                'demanda' => $demanda,
+                'promediomovilponderado' => $pmp,
+                calcularErrores($demanda, $pmp)
+            ];
+            echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+            break;
         case 'regresionlineal':
             $proporcion = isset($_POST['proporcion']) ? $_POST['proporcion'] : null;
             $alcance = $_POST['alcance'];
-            $rl = regresionlineal($demanda, $proporcion, $alcance); // Asume que tienes una función llamada regresionlineal
+            $rl = regresionlineal($demanda, $proporcion, $alcance);
             $todo = [
                 'demanda' => $demanda,
                 'regresionlineal' => $rl
@@ -402,7 +418,7 @@ if (isset($_POST['metodo'], $_POST['demanda'])) {
             break;
         case 'suavisadoexponencialsimple':
             $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
-            $ses = suavisadoexponencialsimple($demanda, $alpha); // Asume que tienes una función llamada suavisadoexponencialsimple
+            $ses = suavisadoexponencialsimple($demanda, $alpha);
             $todo = [
                 'demanda' => $demanda,
                 'suavisadoexponencialsimple' => $ses,
@@ -410,10 +426,31 @@ if (isset($_POST['metodo'], $_POST['demanda'])) {
             ];
             echo json_encode($todo, JSON_UNESCAPED_UNICODE);
             break;
+        case 'suavisadoexponencialdoble':
+                $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
+                $alcance = $_POST['alcance'];
+                $sed = suavisadoexponencialdoble($demanda, $alpha, $alcance );
+                $todo = [
+                    'demanda' => $demanda,
+                    'suavisadoexponencialdoble' => $sed,
+                    calcularErrores($demanda, $sed)
+                ];
+                echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+                break;
+        case 'winters':
+                    $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
+                    $ses = suavisadoexponencialsimple($demanda, $alpha);
+                    $todo = [
+                        'demanda' => $demanda,
+                        'suavisadoexponencialsimple' => $ses,
+                        calcularErrores($demanda, $ses)
+                    ];
+                    echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+                    break;
         default:
-        $error = ['error' => 'Método no reconocido'];
-        echo json_encode($error, JSON_UNESCAPED_UNICODE);
-        break;
+            $error = ['error' => 'Método no reconocido'];
+            echo json_encode($error, JSON_UNESCAPED_UNICODE);
+            break;
     }
 
     // Resto de tu código...

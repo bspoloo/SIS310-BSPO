@@ -21,10 +21,11 @@ $pronosticos = $_GET["pronosticos"];
     <label for="metodo">Seleccione el método:</label>
     <select name="metodo" id="metodo" onchange="CambiarPronostico()">
         <option value="promediomovilsimple">Promedio Móvil Simple</option>
+        <option value="promediomovilponderado">Promedio Móvil Ponderado</option>
         <option value="regresionlineal">Regresión Lineal</option>
         <option value="suavisadoexponencialsimple">Suavizado Exponencial Simple</option>
-        <!-- <option value="suavisadoexponencialdoble">Suavizado Exponencial Doble</option>
-        <option value="winters">Winters</option> -->
+        <option value="suavisadoexponencialdoble">Suavizado Exponencial Doble</option>
+        <option value="winters">Winters</option>
     </select>
 </div>
 

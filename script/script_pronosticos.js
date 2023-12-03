@@ -41,9 +41,9 @@ function CambiarPronostico() {
     // Opción para Suavizado Exponencial Doble (dos inputs para alpha y beta)
     opcionesPronostico.innerHTML =
       '<label for="alpha">Alpha:</label>' +
-      '<input type="text" name="alpha" id="alpha" required>' +
-      '<label for="beta">Beta:</label>' +
-      '<input type="text" name="beta" id="beta" required>';
+      '<input type="text" name="alpha" id="alpha" required>';
+      // '<label for="beta">Beta:</label>' +
+      // '<input type="text" name="beta" id="beta" required>'
   } else if (metodo === "winters") {
     // Opción para Winters (tres inputs para alpha, beta y gama)
     opcionesPronostico.innerHTML =
@@ -184,7 +184,7 @@ if (n !== null) {
           gridInstance_pronosticos.destroy(); // Destruir la tabla existente si hay una
         }
 
-        if (objeto.regresionlineal) {
+        if (objetoconst.regresionlineal) {
           const longitudPronostico = objeto.regresionlineal.arraypronosticoajustado.length;
         
           console.log("Longitud de arraypronosticoajustado:", longitudPronostico);
@@ -221,6 +221,47 @@ if (n !== null) {
             }),
           }).render(document.getElementById("rl_table"));
         }
+
+
+        if (objetoconst.suavisadoexponencialsimple) {
+
+          const longitudPronostico = objeto.suavisadoexponencialsimple.length;
+          
+          gridInstance_pronosticos = new gridjs.Grid({
+        
+            columns: [
+              { name: "periodo" },
+              { name: "demanda" },
+              { name: "pronostico" },
+              { name: "error" },
+              { name: "error abs" },
+              { name: "error %" },
+              
+            ],
+        
+            data: Array(longitudPronostico).fill(0).map((_, index) => {
+        
+              const demandaValue = index < objeto.demanda.length ? objeto.demanda[index] : null;
+        
+              const pronosticoValue = index < longitudPronostico ?  
+                objeto.suavisadoexponencialsimple[index] : 
+                null;
+        
+              return [
+                index+1,
+                demandaValue,
+                pronosticoValue,
+                objeto[0].errores[index],
+                objeto[0].erroresAbsolutos[index],
+                objeto[0].erroresPorcentuales[index],
+              ];
+        
+            })
+        
+          }).render(document.getElementById("sed_table"));;
+        
+        }
+
       } catch (error) {
         console.error("Error al analizar la respuesta JSON:", error);
       }
