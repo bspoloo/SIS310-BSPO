@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 $mesesTotal = $_POST["mesesTotal"];
 
 $trabIniciales = $_POST["trabIniciales"];
@@ -25,23 +28,22 @@ $alternativa = $_POST["alternativasPAP"];
 
 class PAP
 {
-    private $alternativa;
-
-    private $mesesTotal;
-    private $demandas;
-    private $dias;
-    private $trabIniciales;
-    private $horasUnidad;
-    private $horasDia;
-    private $unidadesProducidas;
-    private $costoProduccion;
-    private $costoContratacion;
-    private $costoDespido;
-    private $costoHoraExtra;
-    private $costoSubcontratacion;
-    private $costoAlmacenamiento;
-    private $costoRotura;
-    private $costoMOhr;
+    public $alternativa;
+    public $mesesTotal;
+    public $demandas;
+    public $dias;
+    public $trabIniciales;
+    public $horasUnidad;
+    public $horasDia;
+    public $unidadesProducidas;
+    public $costoProduccion;
+    public $costoContratacion;
+    public $costoDespido;
+    public $costoHoraExtra;
+    public $costoSubcontratacion;
+    public $costoAlmacenamiento;
+    public $costoRotura;
+    public $costoMOhr;
 
     public function __construct(
         $alternativa,
@@ -379,6 +381,14 @@ class PAP
 
 $pap = new PAP($alternativa, $mesesTotal, $demandas, $dias, $trabIniciales, $horasUnidad, $horasDia, $unidadesProducidas, $costoProduccion, $costoContratacion, $costoDespido, $costoHoraExtra, $costoSubcontratacion, $costoAlmacenamiento, $costoRotura, $costoMOhr);
 
+$_SESSION['datos']=$pap->alternativa;
+
+$_SESSION['uniProd']=$pap->unidadesProducidas;
+
+$_SESSION['pap']=$pap->datos();
+
+
 $general = $pap->datos();
+
 
 echo json_encode($general, JSON_UNESCAPED_UNICODE);

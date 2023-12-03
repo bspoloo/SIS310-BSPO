@@ -3,5 +3,18 @@ body {
 }
 
 .navbar {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-bottom: 0px;
 }
+.navbar2 {
+  display: flex;
+  flex-direction: row;
+  width:100%;
+  padding-right: 2.5%;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-bottom: 0px;
+}
+
