@@ -9,44 +9,73 @@
 </head>
 <body>
     <div class="context">
-        hola
+        <h1>Diagrama de pareto</h1>
+        <p>
+            El diagrama de Pareto es una representación gráfica que muestra la distribución de un conjunto de datos en orden descendente, resaltando la importancia relativa de cada elemento 
+            dentro de ese conjunto. Este diagrama se basa en el principio de Pareto, también conocido como el principio del 80/20, que sostiene que aproximadamente el 80% de los efectos provienen del 20% de las causas.
 
+            El diagrama de Pareto consta de barras que representan diferentes categorías o elementos, dispuestas en orden descendente de izquierda a derecha según su frecuencia, impacto o importancia.
+            Además, el gráfico incluye una línea que muestra la acumulación porcentual del total, lo que ayuda a visualizar la contribución acumulativa de cada categoría al total.
+
+            Este tipo de diagrama es útil para identificar y priorizar problemas, focalizándose en aquellos que tienen el mayor impacto o contribuyen significativamente a un resultado particular.
+            Por ejemplo, en negocios, puede ayudar a identificar los productos más vendidos, los problemas más recurrentes en un proceso o las áreas en las que se concentra la mayor parte de los costos.
+
+            El diagrama de Pareto es una herramienta de gestión que permite tomar decisiones informadas al concentrarse en los elementos clave que tienen el mayor impacto, facilitando así la asignación
+            efectiva de recursos para obtener mejoras significativas.
+        </p>
+        <center><img src="../images/80-20.jpg" alt="imagen de 80/20"></center>
+    <h1>Utilidad del Diagrama de Pareto en Sistemas de Procesos y Producción</h1>
+
+    <p>El diagrama de Pareto es una herramienta valiosa en los sistemas de procesos y producción porque puede ayudar a identificar y priorizar problemas o áreas de mejora que tienen el mayor impacto en la eficiencia operativa. Algunas formas en las que el diagrama de Pareto podría ser útil en estos sistemas incluyen:</p>
+    <ul>
+        <li><strong>Identificación de problemas prioritarios:</strong> En un entorno de producción, puede haber múltiples problemas que afecten la eficiencia. El diagrama de Pareto ayuda a visualizar y priorizar aquellos problemas que tienen el mayor impacto en la producción, permitiendo abordar primero los que generan los mayores costos o retrasos.</li>
+        <li><strong>Enfoque en mejoras clave:</strong> Al identificar los problemas más significativos, las empresas pueden concentrar sus esfuerzos en resolver o mejorar esas áreas específicas. Esto permite una asignación más eficiente de recursos y tiempo para maximizar el impacto de las mejoras.</li>
+        <li><strong>Análisis de fallas o defectos:</strong> En sistemas de producción, los defectos o fallas pueden ser costosos. El diagrama de Pareto ayuda a determinar qué tipos de defectos son más frecuentes o tienen un impacto más significativo, lo que permite priorizar la resolución de esos problemas para reducir costos y mejorar la calidad del producto.</li>
+        <li><strong>Optimización de procesos:</strong> Identificar qué procesos o pasos tienen el mayor impacto en la producción o en la eficiencia del sistema puede ayudar a optimizar esos procesos para obtener un rendimiento mejorado.</li>
+    </ul>
+    <center><img src="../images/pareto-analisis.jpg" alt="diagrama de pareto" width="700px"></center>
     </div>
-    <br>
-    <div>
-        <div>¿Con cuantos productos cuenta?</div>
-        <form action="javascript:loadTable_pareto('Diagrama de pareto/tabla.php')" method="get" id="form_products">
-            <div>
+    <div class="context">
+        <h2>¿Como realizar un diagrama de pareto?</h2>
+        <p>para realizar un diagrama de pareto se debe tener en cuenta la cantidad de productos con los que se cuenta, cada producto debe tener su prorpia cantidad vendida y a que precio.</p>
+        <h3>Paso 1.- Ingresa la cantidad de productos con los que cuentas:</h3>
+    </div>
+
+    <div class="centered-content">
+        
+        <form class="form3" action="javascript:loadTable_pareto('Diagrama de pareto/tabla.php')" id="form_products">
+            <div class="centered-content">
                 <label for="products">Introduzca los productos con los que cuenta</label>
                 <input type="number" name="products" id="products">
             </div>
-            <input type="reset" value="Limpiar">
-            <input type="submit" value="Enviar">
+            <div class="centered-content">
+                <input type="reset" value="Limpiar">
+                <input type="submit" value="Enviar">
+            </div>
         </form>
     </div>
     <br>
+    
+   
     <div class="products_table" id="products_table">
 
     </div>
-    <div class="products_table" id="ingresos_table">
 
-    </div>
-
-    <div id="pareto_table">
+    <div class="products_table" id="pareto_table">
        
     </div>
+
+    <div class="products_table" id="informe_pareto">
+       
+    </div>
+
     <div id="totales_table">
        
     </div>
-    
-    <div class="chartCard">
-        <div class="chartBox">
-          <canvas id="myChart">
-              
-          </canvas>
-        </div>
-    </div>
 
+
+
+    
     <script src="/script/script_pareto.js"></script>
 </body>
 </html>
