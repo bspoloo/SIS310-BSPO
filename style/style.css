@@ -16,9 +16,9 @@
 
 /* Estilo para el contenido */
 .content {
-    width: 100%;
+    width: 70%;
     padding: 20px; /* Espaciado interno del contenido */
-    background-color: #8f1b1b; /* Color de fondo del contenido *//* Borde alrededor del contenido */
+    background-color: #525050; /* Color de fondo del contenido *//* Borde alrededor del contenido */
     border-radius: 5px; /* Bordes redondeados */
     margin-top: 20px; /* Espacio entre el encabezado y el contenido */
     height: 77vh;
