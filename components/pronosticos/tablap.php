@@ -1,8 +1,6 @@
 <?php
 $pronosticos = $_GET["pronosticos"];
-$tipo_pronostico = $_GET["metodo"];
 ?>
-
 <form class="form2" method="post" id="form_datosp">
 
   <table id="table_pronosticos">
@@ -25,15 +23,15 @@ $tipo_pronostico = $_GET["metodo"];
         <option value="promediomovilsimple">Promedio Móvil Simple</option>
         <option value="regresionlineal">Regresión Lineal</option>
         <option value="suavisadoexponencialsimple">Suavizado Exponencial Simple</option>
-        <option value="suavisadoexponencialdoble">Suavizado Exponencial Doble</option>
-        <option value="winters">Winters</option>
+        <!-- <option value="suavisadoexponencialdoble">Suavizado Exponencial Doble</option>
+        <option value="winters">Winters</option> -->
     </select>
 </div>
 
 <div id="opcionesPronostico" style="display:none;">
 </div>
-
+      
   <input type="button" value="Calcular Pronósticos" onclick="calcularPronosticos()">
-
+  <input type="button" value="Limpiar" onclick="limpiarObjetoConst()">  
 
 </form>
