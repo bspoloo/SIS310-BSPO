@@ -1,13 +1,12 @@
 /* Estilo para el contenedor principal */
-.container {
-   max-width: 100%; /* Ancho máximo del contenedor */
-    margin: 0 auto; /* Centra el contenedor en la página */
-    padding: 20px; /* Espaciado interno del contenedor */
-    background-color: #f8f8f8; /* Color de fondo del contenedor */
-    height: 74vh;
+.container1 {
+    width: 100%;
+    height: 77vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
 
 }
-
 /* Estilo para la sección de encabezado */
 .header {
     background-color: #333; /* Color de fondo del encabezado */
@@ -17,12 +16,12 @@
 
 /* Estilo para el contenido */
 .content {
+    width: 100%;
     padding: 20px; /* Espaciado interno del contenido */
-    background-color: #fff; /* Color de fondo del contenido */
-    border: 1px solid #ddd; /* Borde alrededor del contenido */
+    background-color: #8f1b1b; /* Color de fondo del contenido *//* Borde alrededor del contenido */
     border-radius: 5px; /* Bordes redondeados */
     margin-top: 20px; /* Espacio entre el encabezado y el contenido */
-    height: 100%;
+    height: 77vh;
 
     overflow-y: auto; /* Habilita la barra de desplazamiento vertical si es necesario */
 }
@@ -66,31 +65,6 @@ nav.horizontal li a:hover {
     color: #ffd700; /* Cambio de color del texto al pasar el cursor */
 }
 
-
-form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
 
 input[type="reset"],
 input[type="submit"],
@@ -179,3 +153,61 @@ input[type="button"]:hover {
     flex-direction: row;
     justify-content: center;
   }
+
+
+
+  /* Estilos para el formulario */
+.centered-content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form3 {
+    width: 300px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+  }
+  
+  .form3 div {
+    margin-bottom: 10px;
+  }
+  
+  .form3 label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  .form3 input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .form3 input[type="submit"],
+  .form3 input[type="reset"] {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .form3 input[type="submit"]:hover,
+  .form3 input[type="reset"]:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilos para la tabla de productos */
+  .products_table {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+  }
+  

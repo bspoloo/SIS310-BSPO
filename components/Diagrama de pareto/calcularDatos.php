@@ -42,7 +42,5 @@ $datos['ingresoAcumulativo'] = $ingresoAcumulativo;
 $datos['porcentajeAcumulativo']=$porcentajeAcumulativo;
 $datos['totalesIngresos']= array_sum($ingresos);
 $datos['totalesPorcentaje']= array_sum($porcentaje);
-
-
 echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 ?>
