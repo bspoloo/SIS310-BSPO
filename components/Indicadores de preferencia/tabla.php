@@ -3,7 +3,7 @@
 $products = $_GET["products"];
 
 ?>
-<div class="justify-text">
+<div class="justify-text ">
     <h3>paso1:</h3>
     <h5>Ingresa los Nombres y costos necesarios de los <?php echo $products?> productos con los que cuentas, es necesario el nombre y costo que se pide en cada cuadro, esto servira para calcular:</h5>
     <h5>
@@ -16,6 +16,9 @@ $products = $_GET["products"];
         </ol>
     </h5>
 </div>
+
+<div class="products_table">
+
 <form class="" method="post" id="form_datos">
 
     <table id="indices_preferencia">
@@ -91,6 +94,7 @@ $products = $_GET["products"];
     </div>
 
 </form>
+</div>
 
 <?php
 ?>

@@ -2,11 +2,23 @@
 <html lang="en" data-bs-theme="auto">
   <head><script src="../assets/js/color-modes.js"></script>
 
+  <link rel="stylesheet" href="">
+  <?php
+
+session_start();
+if(!isset($_SESSION["id_usuario"])){
+  header("Location:./login.html");
+}
+
+?>
+
+  <link rel="stylesheet" href="">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.118.2">
+    
     <title>SIS-310</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars-offcanvas/">
@@ -157,8 +169,8 @@
 
     
 <main>
- 
 
+ 
   <nav class="navbar navbar-dark bg-dark" aria-label="Dark offcanvas navbar">
 
     <div class="navbar2">
@@ -187,6 +199,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="javascript:changeContent('PAP/PAP.php')">Plan de agregado de produccion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./cerrarssesion.php">Cerrar sesion</a>
             </li>
 
           </ul>

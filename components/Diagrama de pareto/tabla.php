@@ -2,7 +2,7 @@
 $products = $_GET["products"];
 ?>
 
-<div class="product_table">
+<div class="">
     <h1>Paso 2:</h1>
     <p>El segundo paso es obetner los ingresos de cada producto, para luego ordenarlos de mayor a menor de acuerdo al ingreso, para luego ir graficando:</p>
     <ol>
@@ -12,8 +12,9 @@ $products = $_GET["products"];
     </ol>
 </div>
 
-<div>
-    <form method="post" id="form_datos">
+<div class="">
+
+    <form class="" method="post" id="form_datos">
         <table id="tabla_pareto">
             <tr>
                 <th>Nombre</th>
@@ -45,9 +46,6 @@ $products = $_GET["products"];
 </div>
 
 </div>
-
-
-
 
 
 <script src="../script/script2.js"></script>
