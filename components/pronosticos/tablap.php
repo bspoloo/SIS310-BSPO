@@ -33,6 +33,7 @@ $pronosticos = $_GET["pronosticos"];
 </div>
       
   <input type="button" value="Calcular Pronósticos" onclick="calcularPronosticos()">
+  <br>
   <input type="button" value="Limpiar" onclick="limpiarObjetoConst()">  
 
 </form>
