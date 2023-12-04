@@ -319,26 +319,6 @@ function genenerarInformePAP(alternativa) {
     informe_PAP.innerHTML = "";
     console.log(informe_PAP);
     var informe =`informe`;
-
-    // switch (alternativa) {
-    //     case 1:
-    //         informe+=+alternativa+".php";
-    //         break;
-    //     case 2:
-    //         informe+=+alternativa+".php";
-    //         break;
-    //     case 3:
-    //         informe+=+alternativa+".php";
-    //         break;
-    //     case 4:
-    //         informe+=+alternativa+".php";
-    //         break;
-    //     case 5:
-    //         informe+=+alternativa+".php";
-    //         break;
-    // }
-
-
         var formulario = document.getElementById("form_demandaPAP");
         var parametros = new FormData(formulario);
         fetch("../components/PAP/informe1.php",
@@ -348,5 +328,20 @@ function genenerarInformePAP(alternativa) {
             .then(data => {
                 informe_PAP.innerHTML = data
             });
+}
+function generarComparacion(){
+    
+    console.log("generando comparacion" );
+
+    var informe_PAP = document.getElementById('informe_PAP');
+    informe_PAP.innerHTML = "";
+
+    console.log(informe_PAP);
+
+        fetch('PAP/comparacion.php')
+        .then(response => response.text())
+        .then(data => {
+            informe_PAP.innerHTML = data;
+        });
 
 }

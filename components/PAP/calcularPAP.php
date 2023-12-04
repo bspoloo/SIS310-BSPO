@@ -387,8 +387,17 @@ $_SESSION['uniProd']=$pap->unidadesProducidas;
 
 $_SESSION['pap']=$pap->datos();
 
-
 $general = $pap->datos();
 
+
+
+$_SESSION["alternativas"]=array();
+
+for($i=0; $i<5; $i++){
+    $pap = new PAP($i+1, $mesesTotal, $demandas, $dias, $trabIniciales, $horasUnidad, $horasDia, $unidadesProducidas, $costoProduccion, $costoContratacion, $costoDespido, $costoHoraExtra, $costoSubcontratacion, $costoAlmacenamiento, $costoRotura, $costoMOhr);
+    $alternativas1[$i] = $pap->datos();
+}
+
+$_SESSION["alternativas"] = $alternativas1;
 
 echo json_encode($general, JSON_UNESCAPED_UNICODE);

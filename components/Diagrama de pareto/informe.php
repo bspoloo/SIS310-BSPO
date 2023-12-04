@@ -47,13 +47,19 @@
         <h1>Analisis</h1>
         <p>respetando el <b>80/20 donde 80% de los efectos provienen del 20% de las causas, el caso de los sistemas de procesos y porduccion 
             este concepto seria un poco diferente,
-                aproximadamente el 80% de los resultados proviene del 20% de las causas.</b>
-        </p>
-        <p>
-            el producto mas cercano al 80% de todo el porcentaje acumulativo es <b><?php echo $arrayNombres[$posicion] ?></b>, lo cual quiere decir que debemos priorizar ese producto y
-             sus productos por encima de el los cuales serian:
+            aproximadamente el 80% de los resultados proviene del 20% de las causas.</b>
         </p>
 
+
+        <h3>Interpretación de los Resultados:</h3>
+        El diagrama de Pareto muestra que los siguientes productos son aquellos que generan la mayor parte de los ingresos totales de la empresa. 
+        Juntos, representan alrededor del <b><?php echo $arrayPorcAc[$posicion]?>%</b> de los ingresos totales. Los productos restantes tienen un impacto menor en los ingresos.
+
+        <p>
+            El producto mas cercano al 80% de todo el porcentaje acumulativo es <b><?php echo $arrayNombres[$posicion] ?></b>, lo cual quiere decir que debemos priorizar ese producto y
+             sus productos por encima.
+        </p>
+        <h3>Los productos a priorizar son:</h3>
         <ul>
             <?php
             for($i=0; $i<=$posicion; $i++){?>
@@ -61,7 +67,8 @@
             <?php }
             ?>
         </ul>
-        <p>ya que esos productos son productos con los cuales debemos concentrar nuestros recursos a esos productos ya que son nuestros recursos mas relevantes</p>
+        <h3>Por lo tanto:</h3>
+        <p>Esos productos son los mas relevantes, son a los que mas se debe centrar los recursos de la empresa.</p>
 
     </div>
 
