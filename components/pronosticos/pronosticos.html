@@ -1,4 +1,24 @@
-<h1 class="display-5 fw-normal">¿Qué es un sistema de producción?</h1>
+
+<style>
+    .card {
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    .card-title {
+      color: #333;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .card-text {
+      color: #555;
+    }
+    .card-img-top {
+      max-width: 50%;
+      height: auto;
+    }
+  </style>
+
+
 <div class="arriba">
 
 
@@ -15,7 +35,12 @@
         </form>
         <div class="pronosticos_table" id="form_pronosticos_table"></div>
     </div>
-    <div class="derecha">
+    <div class="derecha mx-auto" style="width: 90%; border: 2px solid #000; padding: 20px; border-radius: 10px;">
+        <h1 class="display-4">Pronósticos</h1>
+<p class="lead">Los pronósticos son estimaciones o predicciones sobre eventos futuros, basadas en el análisis de datos históricos, tendencias actuales y otros factores relevantes. En diferentes contextos, los pronósticos pueden abarcar aspectos como el clima, el rendimiento económico, el comportamiento del mercado, los resultados deportivos o cualquier otro evento sujeto a cierta variabilidad. Estas proyecciones tienen como objetivo brindar orientación y tomar decisiones informadas en un entorno donde la incertidumbre es inherente.</p>
+<img src="../images/RFAx.png" alt="" class="img-fluid rounded mx-auto d-block" style="max-width: 600px;">
+
+
         <div>
             <canvas id="myChart"></canvas>
         </div>
@@ -64,8 +89,53 @@
 </div>
 <div class="abajo" id="abajo">
     <div id="tablaPromedios">
-
     </div>
+    
+      
+      <div class="container">
+        <div class="card">
+          <img src="../images/pms.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Promedio Móvil Simple</h5>
+            <p class="card-text"> El promedio móvil simple es un método para analizar series de tiempo, que consiste en calcular el promedio de un conjunto fijo de observaciones consecutivas. Este enfoque se utiliza para suavizar las fluctuaciones a corto plazo y resaltar tendencias a largo plazo en los datos</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="../images/pmp.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Promedio Móvil Ponderado</h5>
+            <p class="card-text">El promedio móvil ponderado es un método de análisis de series temporales que asigna pesos diferentes a cada observación en función de su importancia relativa. Estos pesos se utilizan para calcular el promedio, lo que otorga mayor influencia a ciertas observaciones sobre otras. Este enfoque es útil para resaltar tendencias específicas o patrones en los datos.  .</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="../images/rl.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Regresión Lineal</h5>
+            <p class="card-text"> La regresión lineal es un modelo matemático utilizado para entender la relación entre una variable dependiente y una o más variables independientes. Se busca establecer una línea recta que mejor se ajuste a los datos, lo que permite predecir el valor de la variable dependiente en función de los valores de las variables independientes. Este modelo es ampliamente utilizado en estadística y ciencia de datos para comprender y predecir relaciones entre variables.  </p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="../images/ses.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Suavizado Exponencial Simple</h5>
+            <p class="card-text"> El suavizado exponencial simple es una técnica de pronóstico que asigna pesos exponenciales decrecientes a las observaciones pasadas. Esto significa que los datos más recientes tienen un mayor impacto en las proyecciones futuras, lo que ayuda a capturar cambios en la tendencia o el patrón de los datos a lo largo del tiempo.</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="../images/sed.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Suavizado Exponencial Doble</h5>
+            <p class="card-text"> El suavizado exponencial doble es una técnica de predicción que utiliza dos suavizaciones exponenciales sucesivas para capturar tanto la tendencia como la estacionalidad en los datos de series temporales. Esto lo hace apropiado para modelar datos que exhiben fluctuaciones estacionales, permitiendo proyectar tendencias a futuro con mayor precisión. </p>
+          </div>
+        </div>
+      </div>
+      
+      
+        
+    
+    </div>
+        
+
     <div class="">
         <p>Copyright © 2023 PoloGOD</p>
         <nav>
