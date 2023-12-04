@@ -154,8 +154,10 @@ $mesesTotal = array();
     </select>
    
     <input type="submit" value="Generar"> 
+    <input type="button" value="Comparacion de alternativas" onclick="generarComparacion()">
 
 </div>
+
 
 </form>
 

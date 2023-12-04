@@ -86,7 +86,7 @@ $products = $_GET["products"];
         </tr>
     </table>
     <br>
-    <div class="centered-content">
+    <div class="align-content">
         <input type="button" value="Calcular indices" onclick="calcularIndices()">
     </div>
 

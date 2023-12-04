@@ -60,7 +60,7 @@ switch ($_SESSION["datos"]) {
 <h5>Para la Demanda por dia</h5>
 <p>Se refiere a la <b>cantidad de unidades que se proucien en ese dia por mes</b>
 <p>
-    <b>lo cual nos da para cada mes:</b></p>
+    <b>lo cual nos da para cada mes:</b>
 </p>
 <table>
     <tr>
