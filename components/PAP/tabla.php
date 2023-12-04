@@ -48,7 +48,7 @@ $mesesTotal = array();
         <th>Valor</th>
     </tr>
     <tr>
-        <td><b>trabajdores iniciales</b></td>
+        <td><b>trabajadores iniciales</b></td>
         <td><input type="number" name="trabIniciales" id="trabIniciales" value=0 min=0 step="any" required></td>
     </tr>
     <tr>

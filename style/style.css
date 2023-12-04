@@ -24,7 +24,7 @@ body{
     background-color: #525050; /* Color de fondo del contenido *//* Borde alrededor del contenido */
     border-radius: 5px; /* Bordes redondeados */
     margin-top: 20px; /* Espacio entre el encabezado y el contenido */
-    height: 700px;
+    height: 77vh;
 
     overflow-y: auto; /* Habilita la barra de desplazamiento vertical si es necesario */
 }

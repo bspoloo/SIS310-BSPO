@@ -1,4 +1,7 @@
 <?php
+
+include ("../conexion.php");
+
 $nombresProducto =$_POST["nombresProducto"];
 $ingresos =$_POST["ingresos"];
 $costosProduccion =$_POST["costosProduccion"];
@@ -45,6 +48,23 @@ $totales = [array_sum($ingresos),
             array_sum($indiceComercial),
             array_sum($contribucionUtilidad) ];
 $indices['totales']=$totales;
+
+
+//===============================================================
+
+// $datos = serialize($indices["costosVariables"]);
+// $hora = date("H:i:s");
+// $sql = "INSERT INTO indices_preferencia(costo_variables,hora) VALUES ('$datos','$hora')";
+
+
+//  //echo $sql;
+// $con->query($sql);
+
+
+// $con->close();
+
+
+
 
 echo json_encode($indices, JSON_UNESCAPED_UNICODE);
 ?>
