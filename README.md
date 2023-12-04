@@ -29,6 +29,8 @@ El Diagrama de Pareto se utiliza para identificar los elementos más significati
 
 ## Licencia
 
+> Para el correcto funcionameiento del sistema es necesario tener un servidor XAMMP o WAMMP instalado y usar la carpeta correspondiente para ejecutar el programa que se encuentra dentro de /components/index.php
+
 
 ## Contacto y soporte
 
