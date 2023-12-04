@@ -1,5 +1,10 @@
 let myChart_pronosticos = null;
-let gridInstance_pronosticos = null;
+let gridInstance_rl = null;
+let gridInstance_sed = null;
+let gridInstance_ses = null;
+let gridInstance_winters = null;
+
+
 let objetoconst = {};
 //let arrayNull = [];
 
@@ -8,7 +13,7 @@ function loadTable_pronosticos(page) {
   var pronosticos_table = document.getElementById("form_pronosticos_table");
 
   var pronosticos = document.getElementById("pronosticos").valueAsNumber;
-  console.log(page + "?pronosticos=" + pronosticos);
+  //console.log(page + "?pronosticos=" + pronosticos);
   pronosticos_table.innerHTML = "";
   fetch(page + "?pronosticos=" + pronosticos)
     .then((response) => response.text())
@@ -41,9 +46,9 @@ function CambiarPronostico() {
     // Opción para Suavizado Exponencial Doble (dos inputs para alpha y beta)
     opcionesPronostico.innerHTML =
       '<label for="alpha">Alpha:</label>' +
-      '<input type="text" name="alpha" id="alpha" required>';
-      // '<label for="beta">Beta:</label>' +
-      // '<input type="text" name="beta" id="beta" required>'
+      '<input type="text" name="alpha" id="alpha" required>' +
+      '<label for="alcance">Alcance:</label>' +
+      '<input type="number" name="alcance" id="alcance" required>';
   } else if (metodo === "winters") {
     // Opción para Winters (tres inputs para alpha, beta y gama)
     opcionesPronostico.innerHTML =
@@ -78,11 +83,6 @@ function calcularPronosticos() {
   var parametros = new FormData(document.getElementById("form_datosp"));
   // Obtiene el valor del método desde el campo oculto
   var metodo = document.getElementById("metodo").value;
-  const n = getValor("n");
-
-if (n !== null) {
-  var arrayNull = Array(parseInt(n)).fill(null);  
-}
  
   // Agrega el valor del método al objeto de parámetros
   parametros.append("metodo", metodo);
@@ -138,10 +138,9 @@ if (n !== null) {
                 label: "Promedio móvil simple",
                 data:
                   objetoconst.promediomovilsimple &&
-                  objetoconst.promediomovilsimple.promediomovilsimple && arrayNull != null
+                  objetoconst.promediomovilsimple.promediomovilsimple
                     ? [
-                      ...arrayNull,
-                        ...objetoconst.promediomovilsimple.promediomovilsimple,
+                      ...objetoconst.promediomovilsimple.promediomovilsimple,
                       ]
                     : [],
                 borderColor: "rgb(0, 255, 0)",
@@ -151,9 +150,7 @@ if (n !== null) {
                 data:
                   objetoconst.regresionlineal &&
                   objetoconst.regresionlineal.regresionlineal
-                    .arraypronosticoajustado
-                    ? objetoconst.regresionlineal.regresionlineal
-                        .arraypronosticoajustado
+                    ? objetoconst.regresionlineal.regresionlineal.arraypronosticoajustado
                     : [],
                 borderColor: "rgb(255, 0, 0)",
               },
@@ -179,18 +176,21 @@ if (n !== null) {
           },
         });
 
-        // Crear la tabla utilizando GRID.js
-        if (gridInstance_pronosticos) {
-          gridInstance_pronosticos.destroy(); // Destruir la tabla existente si hay una
+       
+        if (gridInstance_rl) {
+          gridInstance_rl.destroy(); // Destruir la tabla existente si hay una
         }
 
         if (objetoconst.regresionlineal) {
-          const longitudPronostico = objeto.regresionlineal.arraypronosticoajustado.length;
+
+         
+
+          const longitudPronostico = objetoconst.regresionlineal.regresionlineal.arraypronosticoajustado.length;
         
           console.log("Longitud de arraypronosticoajustado:", longitudPronostico);
-          console.log("Longitud de demanda:", objeto.demanda.length);
+          console.log("Longitud de demanda:", objetoconst.regresionlineal.demanda.length);
         
-          gridInstance_pronosticos = new gridjs.Grid({
+          gridInstance_rl = new gridjs.Grid({
             columns: [
               { name: "periodo" },
               { name: "demanda" },
@@ -199,24 +199,27 @@ if (n !== null) {
               { name: "pronostico ajustado" },
               { name: "error" },
               { name: "error abs" },
-              { name: "error %" },
-            ],
+              { name: "error cuadrático" },
+              { name: "error %" }
+            ],  
             
             data: Array(longitudPronostico).fill(0).map((_, index) => {
-              const demandaValue = index < objeto.demanda.length ? objeto.demanda[index] : null;
-              const pronosticoValue = index < longitudPronostico ? objeto.regresionlineal.arraypronostico[index] : null;
+              const demandaValue = index < objetoconst.regresionlineal.demanda.length? objetoconst.regresionlineal.demanda[index] : null;
+              const pronosticoValue = index < longitudPronostico ? objetoconst.regresionlineal.regresionlineal.arraypronostico[index] : null;
         
               return [
                 index + 1, 
                 demandaValue,
                 pronosticoValue,
-                objeto.regresionlineal.multiplicadorEstacional[
-                  index % objeto.regresionlineal.multiplicadorEstacional.length
+                objetoconst.regresionlineal.regresionlineal.multiplicadorEstacional[
+                  index % objetoconst.regresionlineal.regresionlineal.multiplicadorEstacional.length
                 ],
-                objeto.regresionlineal.arraypronosticoajustado[index],
-                objeto.regresionlineal[0].errores[index],
-                objeto.regresionlineal[0].erroresAbsolutos[index],
-                objeto.regresionlineal[0].erroresPorcentuales[index],
+                objetoconst.regresionlineal.regresionlineal.arraypronosticoajustado[index],
+                objetoconst.regresionlineal.regresionlineal[0].errores[index],
+                objetoconst.regresionlineal.regresionlineal[0].erroresAbsolutos[index],
+                objetoconst.regresionlineal.regresionlineal[0].erroresCuadraticos[index],
+
+                objetoconst.regresionlineal.regresionlineal[0].erroresPorcentuales[index],
               ];
             }),
           }).render(document.getElementById("rl_table"));
@@ -225,9 +228,13 @@ if (n !== null) {
 
         if (objetoconst.suavisadoexponencialsimple) {
 
-          const longitudPronostico = objeto.suavisadoexponencialsimple.length;
+          if (gridInstance_sed) {
+            gridInstance_sed.destroy(); // Destruir la tabla existente si hay una
+          }
+
+          const longitudPronostico = objetoconst.suavisadoexponencialsimple.suavisadoexponencialsimple.length;
           
-          gridInstance_pronosticos = new gridjs.Grid({
+          gridInstance_sed= new gridjs.Grid({
         
             columns: [
               { name: "periodo" },
@@ -235,25 +242,27 @@ if (n !== null) {
               { name: "pronostico" },
               { name: "error" },
               { name: "error abs" },
-              { name: "error %" },
+              { name: "error cuadrático" },
+              { name: "error %" }
               
             ],
         
             data: Array(longitudPronostico).fill(0).map((_, index) => {
         
-              const demandaValue = index < objeto.demanda.length ? objeto.demanda[index] : null;
+              const demandaValue = index < objetoconst.suavisadoexponencialsimple.suavisadoexponencialsimple.length ? objetoconst.suavisadoexponencialsimple.demanda[index] : null;
         
               const pronosticoValue = index < longitudPronostico ?  
-                objeto.suavisadoexponencialsimple[index] : 
+                objetoconst.suavisadoexponencialsimple.suavisadoexponencialsimple[index] : 
                 null;
         
               return [
                 index+1,
                 demandaValue,
                 pronosticoValue,
-                objeto[0].errores[index],
-                objeto[0].erroresAbsolutos[index],
-                objeto[0].erroresPorcentuales[index],
+                objetoconst.suavisadoexponencialsimple[0].errores[index],
+                objetoconst.suavisadoexponencialsimple[0].erroresAbsolutos[index],
+                objetoconst.suavisadoexponencialsimple[0].erroresCuadraticos[index],
+                objetoconst.suavisadoexponencialsimple[0].erroresCuadraticos[index]
               ];
         
             })

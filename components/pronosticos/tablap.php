@@ -3,7 +3,7 @@ $pronosticos = $_GET["pronosticos"];
 ?>
 <form class="form2" method="post" id="form_datosp">
 
-  <table id="table_pronosticos">
+  <table id="table_pronosticos" class="table_pronosticos">
     <tr>
       <th>Periodo</th>
       <th>Demanda</th>
