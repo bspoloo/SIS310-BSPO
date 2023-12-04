@@ -1,41 +1,80 @@
-<div class="container-p">
-    <div class="row">
-        <div class="three columns">
-            <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get"
-                id="form_pronosticos">
+<h1 class="display-5 fw-normal">¿Qué es un sistema de producción?</h1>
+<div class="arriba">
 
-                <div>
-                    <label for="pronosticos">Introduzca los periodos para realizar el pronóstico:</label>
-                    <input type="number" name="pronosticos" id="pronosticos" required min="3">
-                </div>                
-                <div>
-                    <input type="submit" value="Enviar">
-                </div>
-            </form>
-            <div class="pronosticos_table" id="form_pronosticos_table"></div>
-        </div>
-        <div class="">
+
+    <div class="izquierda">
+        <form action="javascript:loadTable_pronosticos('pronosticos/tablap.php')" method="get" id="form_pronosticos">
+
             <div>
+                <label for="pronosticos">Introduzca los periodos para realizar el pronóstico:</label>
+                <input type="number" name="pronosticos" id="pronosticos" required min="3">
             </div>
-            <div class="pronosticos_table" id="promediomovilsimple_table"></div>
-            <div id="promediomovilponderado_table"></div>
-            <div id="ses_table"></div>
-            <div class="pronosticos_table" id="sed_table"></div>
-            <div class="pronosticos_table" id="winters_table"></div>
-            <div id="rl_table"></div>
             <div>
-                <canvas id="myChart"></canvas>
+                <input type="submit" value="Enviar">
+            </div>
+        </form>
+        <div class="pronosticos_table" id="form_pronosticos_table"></div>
+    </div>
+    <div class="derecha">
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div>
+        </div>
+
+        <div >
+            <div id="contenedor1">
+               
+                <div class="pronosticos_table" id="promediomovilsimple_table"></div>
+            </div>
+
+            <div id="contenedor2">
+                
+                <div id="promediomovilponderado_table"></div>
+            </div>
+
+            <div id="contenedor3">
+                
+                <div id="ses_table"></div>
+            </div>
+
+            <div id="contenedor4">
+                
+                <div class="pronosticos_table" id="sed_table"></div>
+            </div>
+
+            <div id="contenedor5">
+               
+                <div class="pronosticos_table" id="winters_table"></div>
+            </div>
+
+            <div id="contenedor6">
+             
+                <div id="rl_table"></div>
+            </div>
+
+            <div id="contenedor7">
+                
+                <div id="pmp_table"></div>
             </div>
         </div>
+
+
+    </div>
+</div>
+<div class="abajo" id="abajo">
+    <div id="tablaPromedios">
+
+    </div>
+    <div class="">
+        <p>Copyright © 2023 PoloGOD</p>
+        <nav>
+            <ul class="">
+                <li><a href="#" class="">Aviso legal</a></li>
+                <li><a href="#" class="">Política de privacidad</a></li>
+            </ul>
+        </nav>
     </div>
 
-<!-- 
-    Answer
-La diferencia principal entre el promedio móvil simple y el promedio móvil ponderado radica en la forma en que se calculan y asignan pesos a los valores en una serie de datos.
-El promedio móvil simple se calcula sumando todos los valores de una serie de datos y dividiendo el resultado por el número total de valores en la serie. En este tipo de promedio, todos los valores tienen un peso igual en el cálculo del promedio
-1
-.
-Por otro lado, el promedio móvil ponderado es un tipo de promedio móvil en el que se asignan diferentes pesos (ponderaciones) a los valores de una serie de datos. Estos pesos pueden ser determinados por el usuario o pueden ser calculados basándose en la importancia relativa de cada valor en la serie de datos
-1
-.
-En resumen, el promedio móvil simple asigna igual importancia a todos los valores en una serie de datos, mientras que el promedio móvil ponderado permite asignar diferentes pesos a los valores, lo que refleja su importancia relativa -->
+</div>
+

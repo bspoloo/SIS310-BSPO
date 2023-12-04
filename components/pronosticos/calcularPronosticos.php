@@ -69,34 +69,24 @@ function regresionlineal($demanda, $proporcion, $alcance)
         $index++;
     }
     $data = $arraycorreguido;
-    // Store data length in a local variable to reduce
-    // repeated array property lookups
+   
     $dataLength = count($data);
 
-    // If there's only one point, arbitrarily choose a slope of 0
-    // and a y-intercept of whatever the y of the initial point is
     if ($dataLength === 1) {
         $m = 0;
         $b = $data[0][1];
     } else {
-        // Initialize our sums and scope the `m` and `b`
-        // variables that define the line.
+       
         $sumX = 0;
         $sumY = 0;
         $sumXX = 0;
         $sumXY = 0;
 
-        // Use local variables to grab point values
-        // with minimal array property lookups
         $point = [];
         $x = 0;
         $y = 0;
 
-        // Gather the sum of all x values, the sum of all
-        // y values, and the sum of x^2 and (x*y) for each
-        // value.
-        //
-        // In math notation, these would be SS_x, SS_y, SS_xx, and SS_xy
+       
         for ($i = 0; $i < $dataLength; $i++) {
             $point = $data[$i];
             $x = $point[0];
@@ -109,12 +99,12 @@ function regresionlineal($demanda, $proporcion, $alcance)
             $sumXY += $x * $y;
         }
 
-        // `m` is the slope of the regression line
+        
         $m =
             ($dataLength * $sumXY - $sumX * $sumY) /
             ($dataLength * $sumXX - $sumX * $sumX);
 
-        // `b` is the y-intercept of the line.
+       
         $b = $sumY / $dataLength - ($m * $sumX) / $dataLength;
     }
 
@@ -123,7 +113,6 @@ function regresionlineal($demanda, $proporcion, $alcance)
     }
 
 
-    // Calcular el multiplicador estacional
     // Calcular el multiplicador estacional
     $multiplicadorEstacional = [];
     for ($i = 0; $i < count($demanda) - $proporcion; $i++) {
@@ -177,26 +166,33 @@ function calcularErrores($demanda, $pronostico)
         $erroresCuadraticos[] = $errorCuadratico;
     }
 
+    $promedioErrores = array_sum($errores) / count($errores);
+    $promedioErroresAbsolutos = array_sum($erroresAbsolutos) / count($erroresAbsolutos);
+    $promedioErroresPorcentuales = array_sum($erroresPorcentuales) / count($erroresPorcentuales);
+    $promedioErroresCuadraticos = sqrt(array_sum($erroresCuadraticos) / count($erroresCuadraticos));
+
     return [
         'errores' => $errores,
         'erroresAbsolutos' => $erroresAbsolutos,
         'erroresPorcentuales' => $erroresPorcentuales,
-        'erroresCuadraticos' => $erroresCuadraticos
+        'erroresCuadraticos' => $erroresCuadraticos,
+        'promedioErrores' => $promedioErrores,
+        'promedioErroresAbsolutos' => $promedioErroresAbsolutos,
+        'promedioErroresPorcentuales' => $promedioErroresPorcentuales,
+        'promedioErroresCuadraticos' => $promedioErroresCuadraticos,
     ];
 }
 
 
-
-
 function suavisadoexponencialsimple($x, $y)
 {
-    $sed = new SimpleExponentialSmoothing($x, $y);
+    $sed = new suavisadoexponencialsimple($x, $y);
     $result = $sed->predict();
     return $result;
 }
 
 
-class SimpleExponentialSmoothing
+class suavisadoexponencialsimple
 {
     private $data;
     private $alpha;
@@ -244,7 +240,7 @@ class SimpleExponentialSmoothing
 
 
 
-class HoltSmoothing
+class suavisadoexponencialdoble
 {
     public $data;
     public $alpha;
@@ -313,7 +309,7 @@ class HoltSmoothing
 
 function suavisadoexponencialdoble($demanda, $alpha, $beta, $alcance)
 {
-    $ses = new HoltSmoothing($demanda, $alpha, $beta);
+    $ses = new suavisadoexponencialdoble($demanda, $alpha, $beta);
 
     // Realizar la predicción con el horizonte especificado
     $pronosticos = $ses->predict($alcance);
@@ -322,6 +318,49 @@ function suavisadoexponencialdoble($demanda, $alpha, $beta, $alcance)
     return $pronosticos;
 }
 
+
+function calcularErrores1($demanda, $pronostico, $n) {
+    $errores = [];
+    $erroresAbsolutos = [];
+    $erroresPorcentuales = [];
+    $erroresCuadraticos = [];
+
+    $totalDatos = count($demanda);
+
+    for ($i = $n; $i < $totalDatos; $i++) {
+        $error = $demanda[$i] - $pronostico[$i - $n];
+        $errores[] = $error;
+        $erroresAbsolutos[] = abs($error);
+
+        if ($demanda[$i] != 0) {
+            $erroresPorcentuales[] = ($error / $demanda[$i]) * 100;
+        } else {
+            $erroresPorcentuales[] = null; // Evitar división por cero
+        }
+
+        $erroresCuadraticos[] = pow($error, 2);
+    }
+
+    // Calcular promedios
+    $promedioErrores = array_sum($errores) / count($errores);
+    $promedioErroresAbsolutos = array_sum($erroresAbsolutos) / count($erroresAbsolutos);
+    
+    // Evitar división por cero al calcular el promedio porcentual
+    $promedioErroresPorcentuales = !empty(array_filter($erroresPorcentuales)) ? array_sum($erroresPorcentuales) / count($erroresPorcentuales) : null;
+
+    $promedioErroresCuadraticos = array_sum($erroresCuadraticos) / count($erroresCuadraticos);
+
+    return [
+        'errores' => $errores,
+        'erroresAbsolutos' => $erroresAbsolutos,
+        'erroresPorcentuales' => $erroresPorcentuales,
+        'erroresCuadraticos' => $erroresCuadraticos,
+        'promedioErrores' => $promedioErrores,
+        'promedioErroresAbsolutos' => $promedioErroresAbsolutos,
+        'promedioErroresPorcentuales' => $promedioErroresPorcentuales,
+        'promedioErroresCuadraticos' => $promedioErroresCuadraticos,
+    ];
+}
 
 
 
@@ -337,14 +376,17 @@ if (isset($_POST['metodo'], $_POST['demanda'])) {
             $todo = [
                 'demanda' => $demanda,
                 'promediomovilsimple' => $pms,
+                calcularErrores1($demanda, $pms, $n)
             ];
             echo json_encode($todo, JSON_UNESCAPED_UNICODE);
             break;
         case 'promediomovilponderado':
             $n = $_POST['n'];
-            $pesos = $_POST['pesos'];
+            $pesosst = $_POST['pesos'];
             $alcance = $_POST['alcance'];
-            $pmp = promedioMovilPonderado($demanda, $pesos, $n, $alcance);
+
+            $pesos = array_map('floatval', explode(',', $pesosst));
+            $pmp = promedioMovilPonderado($demanda, $pesos, $n, $alcance+1);
             $todo = [
                 'demanda' => $demanda,
                 'promediomovilponderado' => $pmp,
@@ -374,31 +416,31 @@ if (isset($_POST['metodo'], $_POST['demanda'])) {
             break;
         case 'suavisadoexponencialdoble':
                 $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
+                $beta = isset($_POST['beta']) ? $_POST['beta'] : null;
                 $alcance = $_POST['alcance'];
-                
+
                 $sed = suavisadoexponencialdoble($demanda, $alpha,$beta, $alcance );
                 $todo = [
                     'demanda' => $demanda,
                     'suavisadoexponencialdoble' => $sed,
-                    //calcularErrores($demanda, $sed)
+                    calcularErrores($demanda, $sed)
                 ];
                 echo json_encode($todo, JSON_UNESCAPED_UNICODE);
                 break;
-        case 'winters':
-                    $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
-                    $ses = suavisadoexponencialsimple($demanda, $alpha);
-                    $todo = [
-                        'demanda' => $demanda,
-                        'suavisadoexponencialsimple' => $ses,
-                        calcularErrores($demanda, $ses)
-                    ];
-                    echo json_encode($todo, JSON_UNESCAPED_UNICODE);
-                    break;
+        // case 'winters':
+        //             $alpha = isset($_POST['alpha']) ? $_POST['alpha'] : null;
+        //             $ses = suavisadoexponencialsimple($demanda, $alpha);
+        //             $todo = [
+        //                 'demanda' => $demanda,
+        //                 'suavisadoexponencialsimple' => $ses,
+        //                 calcularErrores($demanda, $ses)
+        //             ];
+        //             echo json_encode($todo, JSON_UNESCAPED_UNICODE);
+        //             break;
         default:
             $error = ['error' => 'Método no reconocido'];
             echo json_encode($error, JSON_UNESCAPED_UNICODE);
             break;
     }
 
-    // Resto de tu código...
 }

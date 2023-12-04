@@ -1,66 +1,68 @@
-.checkbox-wrapper-64 input[type="checkbox"] {
-    visibility: hidden;
-    display: none;
-  }
+.container-p {
+  display: flex;
+  flex-direction: column;
+  max-width: auto;
+  margin: 50px auto;
+}
 
-  .checkbox-wrapper-64 *,
-  .checkbox-wrapper-64 ::after,
-  .checkbox-wrapper-64 ::before {
-    box-sizing: border-box;
-  }
+.arriba {
+  display: flex;
+}
 
-  /* The switch - the box around the slider */
-  .checkbox-wrapper-64 .switch {
-    font-size: 17px;
-    position: relative;
-    display: inline-block;
-    width: 3.5em;
-    height: 2em;
-  }
 
-  /* Hide default HTML checkbox */
-  .checkbox-wrapper-64 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
 
-  /* The slider */
-  .checkbox-wrapper-64 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #fff;
-    border: 1px solid #adb5bd;
-    transition: .4s;
-    border-radius: 30px;
-  }
 
-  .checkbox-wrapper-64 .slider:before {
-    position: absolute;
-    content: "";
-    height: 1.4em;
-    width: 1.4em;
-    border-radius: 20px;
-    left: 0.27em;
-    bottom: 0.25em;
-    background-color: #adb5bd;
-    transition: .4s;
-  }
+.izquierda {
+  padding: 20px;
+  width: 30%;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
 
-  .checkbox-wrapper-64 input:checked + .slider {
-    background-color: #007bff;
-    border: 1px solid #007bff;
-  }
+.izquierda form {
+  display: flex;
+  flex-direction: column;
+}
 
-  .checkbox-wrapper-64 input:focus + .slider {
-    box-shadow: 0 0 1px #007bff;
-  }
+.izquierda div {
+  margin-bottom: 20px;
+}
 
-  .checkbox-wrapper-64 input:checked + .slider:before {
-    transform: translateX(1.4em);
-    background-color: #fff;
-  }
+.izquierda label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.izquierda input[type="number"] {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.izquierda input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.derecha {
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  max-width: 1200px;
+}
+
+.canvas-container {
+  margin-bottom: 20px;
+}
+
+
+.table_pronosticos {
+  width: 100%;
+    border-collapse: collapse;
+}
