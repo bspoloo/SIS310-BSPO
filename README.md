@@ -26,13 +26,13 @@ El Diagrama de Pareto se utiliza para identificar los elementos más significati
 
 ## Instalación y configuración
  
-Para ejecutar el programa debe instalarse XAMPP de la pagina: https://www.apachefriends.org/es/download.html
-una vez instalado xampp en el disco C del equipo debe proseguirse con la clonacion del repositorio, este debe ser clonado en los archivos **C:\xampp\htdocs**
-ahora se debe ejecutar el xampp panel control, donde debera poonerse en marcha **Apache y Mysql**, una vez realizado esto debera importarse la base de datos que se encuentra en: **C:\xampp\htdocs\SIS310-BSPO\database** despues de ser clonado el proyecto.
+Para ejecutar el programa debe instalarse XAMPP de la pagina: https://www.apachefriends.org/es/download.html.
+una vez instalado xampp en el disco C del equipo debe proseguirse con la clonacion del repositorio, este debe ser clonado en los archivos **C:\xampp\htdocs**.
+ahora se debe ejecutar el xampp panel control, donde debera poonerse en marcha **Apache y Mysql**, una vez realizado esto debera importarse la base de datos que se encuentra en: **C:\xampp\htdocs\SIS310-BSPO\database**,despues de ser clonado el proyecto.
 una vez instalado lo necesario, debe de ingresar en **C:\xampp\htdocs\SIS310-BSPO\components** donde automaticamente se cargara el login del usuario, el Email y contraseña es:
 
-Email: animetx098@gmail.com
-Password: 123456
+Email: animetx098@gmail.com.
+Password: 123456.
 
 ## Licencia
 
