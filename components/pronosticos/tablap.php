@@ -25,7 +25,7 @@ $pronosticos = $_GET["pronosticos"];
         <option value="regresionlineal">Regresión Lineal</option>
         <option value="suavisadoexponencialsimple">Suavizado Exponencial Simple</option>
         <option value="suavisadoexponencialdoble">Suavizado Exponencial Doble</option>
-        <option value="winters">Winters</option>
+        <!-- <option value="winters">Winters</option> -->
     </select>
 </div>
 

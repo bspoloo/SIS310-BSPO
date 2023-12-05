@@ -296,7 +296,7 @@ function calcularPronosticos() {
                 objetoconst.suavisadoexponencialsimple[0].errores[index],
                 objetoconst.suavisadoexponencialsimple[0].erroresAbsolutos[index],
                 objetoconst.suavisadoexponencialsimple[0].erroresCuadraticos[index],
-                objetoconst.suavisadoexponencialsimple[0].erroresCuadraticos[index]
+                objetoconst.suavisadoexponencialsimple[0].erroresPorcentuales[index]
               ];
         
             })
@@ -342,7 +342,7 @@ function calcularPronosticos() {
                 objetoconst.suavisadoexponencialdoble[0].errores[index],
                 objetoconst.suavisadoexponencialdoble[0].erroresAbsolutos[index],
                 objetoconst.suavisadoexponencialdoble[0].erroresCuadraticos[index],
-                objetoconst.suavisadoexponencialdoble[0].erroresCuadraticos[index]
+                objetoconst.suavisadoexponencialdoble[0].erroresPorcentuales[index]
               ];
             }),
           }).render(document.getElementById("sed_table"));
@@ -387,7 +387,7 @@ function calcularPronosticos() {
                 objetoconst.promediomovilponderado[0].errores[index],
                 objetoconst.promediomovilponderado[0].erroresAbsolutos[index],
                 objetoconst.promediomovilponderado[0].erroresCuadraticos[index],
-                objetoconst.promediomovilponderado[0].erroresCuadraticos[index]
+                objetoconst.promediomovilponderado[0].erroresPorcentuales[index]
               ];
         
             })

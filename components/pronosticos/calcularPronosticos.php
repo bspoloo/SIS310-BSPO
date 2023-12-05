@@ -115,7 +115,7 @@ function regresionlineal($demanda, $proporcion, $alcance)
 
     // Calcular el multiplicador estacional
     $multiplicadorEstacional = [];
-    for ($i = 0; $i < count($demanda) - $proporcion; $i++) {
+    for ($i = 0; $i < $proporcion; $i++) {
         $valor1 = $demanda[$i] / $arraypronostico[$i];
         $valor2 = $demanda[$i + $proporcion] / $arraypronostico[$i + $proporcion];
 
@@ -157,19 +157,18 @@ function calcularErrores($demanda, $pronostico)
     for ($i = 0; $i < count($demanda); $i++) {
         $error = $demanda[$i] - $pronostico[$i];
         $errorAbsoluto = abs($error);
-        $errorPorcentual = ($errorAbsoluto / $demanda[$i]) * 100;
-        $errorCuadratico = $error * $error;
+        $erroresPorcentuales[] = ($error / $demanda[$i]) * 100;
+        
 
         $errores[] = $error;
         $erroresAbsolutos[] = $errorAbsoluto;
-        $erroresPorcentuales[] = $errorPorcentual;
-        $erroresCuadraticos[] = $errorCuadratico;
+        $erroresCuadraticos[] = pow($error, 2);
     }
 
     $promedioErrores = array_sum($errores) / count($errores);
     $promedioErroresAbsolutos = array_sum($erroresAbsolutos) / count($erroresAbsolutos);
-    $promedioErroresPorcentuales = array_sum($erroresPorcentuales) / count($erroresPorcentuales);
-    $promedioErroresCuadraticos = sqrt(array_sum($erroresCuadraticos) / count($erroresCuadraticos));
+    $promedioErroresPorcentuales = abs(array_sum($erroresPorcentuales)) / count($erroresPorcentuales);
+    $promedioErroresCuadraticos = array_sum($erroresCuadraticos) / count($erroresCuadraticos);
 
     return [
         'errores' => $errores,
@@ -318,7 +317,6 @@ function suavisadoexponencialdoble($demanda, $alpha, $beta, $alcance)
     return $pronosticos;
 }
 
-
 function calcularErrores1($demanda, $pronostico, $n) {
     $errores = [];
     $erroresAbsolutos = [];
@@ -327,24 +325,32 @@ function calcularErrores1($demanda, $pronostico, $n) {
 
     $totalDatos = count($demanda);
 
-    for ($i = $n; $i < $totalDatos; $i++) {
-        $error = $demanda[$i] - $pronostico[$i - $n];
-        $errores[] = $error;
-        $erroresAbsolutos[] = abs($error);
-
-        if ($demanda[$i] != 0) {
-            $erroresPorcentuales[] = ($error / $demanda[$i]) * 100;
+    for ($i = 0; $i < $totalDatos; $i++) {
+        if ($i < $n) {
+            // Agregar null o 0 según sea necesario
+            $errores[] = null;
+            $erroresAbsolutos[] = null;
+            $erroresPorcentuales[] = null;
+            $erroresCuadraticos[] = null;
         } else {
-            $erroresPorcentuales[] = null; // Evitar división por cero
-        }
+            $error = $demanda[$i] - $pronostico[$i];
+            $errores[] = $error;
+            $erroresAbsolutos[] = abs($error);
 
-        $erroresCuadraticos[] = pow($error, 2);
+            if ($demanda[$i - $n] != 0) {
+                $erroresPorcentuales[] = ($error / $demanda[$i - $n]);
+            } else {
+                $erroresPorcentuales[] = null; // Evitar división por cero
+            }
+
+            $erroresCuadraticos[] = pow($error, 2);
+        }
     }
 
     // Calcular promedios
     $promedioErrores = array_sum($errores) / count($errores);
     $promedioErroresAbsolutos = array_sum($erroresAbsolutos) / count($erroresAbsolutos);
-    
+
     // Evitar división por cero al calcular el promedio porcentual
     $promedioErroresPorcentuales = !empty(array_filter($erroresPorcentuales)) ? array_sum($erroresPorcentuales) / count($erroresPorcentuales) : null;
 
@@ -357,8 +363,8 @@ function calcularErrores1($demanda, $pronostico, $n) {
         'erroresCuadraticos' => $erroresCuadraticos,
         'promedioErrores' => $promedioErrores,
         'promedioErroresAbsolutos' => $promedioErroresAbsolutos,
-        'promedioErroresPorcentuales' => $promedioErroresPorcentuales,
-        'promedioErroresCuadraticos' => $promedioErroresCuadraticos,
+        'promedioErroresPorcentuales' => $promedioErroresPorcentuales * 100,
+        'promedioErroresCuadraticos' => $promedioErroresCuadraticos ,
     ];
 }
 
